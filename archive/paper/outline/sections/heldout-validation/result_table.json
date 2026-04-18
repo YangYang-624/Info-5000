@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "section_id": "heldout-validation",
+  "title": "Held-out Combined-Stress Validation",
+  "rows": [
+    {
+      "item_id": "heldout-combo-v1",
+      "title": "Held-out combined-stress validation of the PSMS-v2 winner",
+      "kind": "analysis_report",
+      "paper_role": "main_text",
+      "status": "completed",
+      "claim_links": [
+        "claim-heldout-rank1",
+        "claim-local-boundary"
+      ],
+      "setup_note": "Reused the fixed-protocol held-out validator on nominal, hot_plating_combo, hot_sei_combo, and hot_dual_combo. Compared the PSMS-v2 main winner, the EVTBO anchor, and BO_3step_aggressive under the unchanged four-metric comparison contract.",
+      "metric_summary": "robust_utility=0.0706; mean_score=0.0877; worst_score=0.0032; guard_pass_rate=1.0",
+      "result_summary": "UA5_PSMS_3.00C_rest10m_4.30C_e4.50_v4p18_h3.35_1p5m stayed rank-1 under both robust and nominal ordering on heldout_combo_v1. Relative to the EVTBO anchor, mean deltas remained positive and worst-case deltas stayed non-negative across Q30, plating_loss, sei_growth, and total_lli. BO_3step_aggressive dropped to guard_pass_rate=0.0 and robust_utility=-0.6077.",
+      "impact_summary": "This upgrades the PSMS-v2 line from a strong main-run result to held-out-supported main-text evidence and supports moving directly into paper drafting.",
+      "source_paths": [
+        "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/idea-idea-8d0629d2/experiments/analysis/heldout_combo_validation/results/psms_v2_heldout_combo_v1_summary.json",
+        "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/idea-idea-8d0629d2/experiments/analysis/heldout_combo_validation/results/psms_v2_heldout_combo_v1_scenario_metrics.csv",
+        "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/idea-idea-8d0629d2/artifacts/reports/report-ad747cca.json"
+      ],
+      "updated_at": "2026-04-15T17:18:25+00:00"
+    }
+  ],
+  "updated_at": "2026-04-17T04:24:54+00:00"
+}

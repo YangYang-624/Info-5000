@@ -1,0 +1,516 @@
+{
+  "schema_version": 1,
+  "outline_id": "outline-001",
+  "status": "selected",
+  "title": "Physics-Prior Masked Multi-Stage Search for Fast-Charge Protocol Design Under Thermal Stress",
+  "note": "Revised after the PSMS-v2 main result and held-out validation replaced the older UA3-centric paper story.",
+  "story": "Starting from a trusted five-protocol PyBaMM baseline, the paper should show that fixed three-stage protocol search eventually saturates and that a richer staged protocol family plus feasibility-aware constrained search can push the frontier further. PSMS-v2 combines entry-aware staging, physics-prior masking, and sequence-order biases inside the same local robust search loop, yielding a stronger protocol than both the accepted baseline and the previous EVTBO anchor while staying rank-1 on a held-out combined-stress bundle. Comparable single-component ablations show that none of those added ingredients is individually decisive under the accepted four-metric contract, so the supported claim is a package-level PSMS upgrade rather than a single-mechanism story.",
+  "ten_questions": [
+    "What concrete limitation of the accepted BO_3step_aggressive baseline and the later EVTBO anchor motivates moving beyond fixed three-stage search?",
+    "Why is it defensible to keep the trusted PyBaMM comparison contract while upgrading the protocol representation itself?",
+    "What package of representation and feasibility-aware search changes does PSMS-v2 add beyond EVTBO, and how should that package be described without over-claiming any one ingredient?",
+    "How is the accepted four-metric contract preserved while introducing the richer protocol family?",
+    "How did the search frontier progress from VTBO to EVTBO to PSMS-v2, and where did the largest gain appear?",
+    "How much nominal improvement does PSMS-v2 achieve over BO_3step_aggressive and over EVTBO on Q30 and the degradation metrics?",
+    "What is the final discovered protocol and how should its staged structure be interpreted physically?",
+    "Does the PSMS-v2 winner remain rank-1 on the held-out combined-stress bundle outside the search-time scenarios?",
+    "Which parts of the claim are strongly supported now, and which boundaries must remain explicit?",
+    "What figures, tables, and appendix material are needed to make the PSMS-v2 mechanism and evidence easy to verify?"
+  ],
+  "detailed_outline": {
+    "title": "Physics-Prior Masked Multi-Stage Search for Fast-Charge Protocol Design Under Thermal Stress",
+    "abstract": "We study battery fast-charge protocol optimization under thermal and degradation stress using a PyBaMM-based simulation benchmark and a trusted five-protocol baseline family. Starting from the accepted BO_3step_aggressive comparator and the later EVTBO incumbent, we introduce PSMS-v2, a physics-prior masked multi-stage search package that expands the staged protocol family and uses feasibility-aware local search under the same four-metric contract. The final protocol, UA5_PSMS_3.00C_rest10m_4.30C_e4.50_v4p18_h3.35_1p5m, improves nominal Q30 from 0.08990 Ah to 0.09636 Ah over BO_3step_aggressive and from 0.09522 Ah to 0.09636 Ah over EVTBO while keeping plating loss unchanged and further reducing SEI growth and total LLI. A held-out combined-stress validation outside the search bundle keeps the PSMS-v2 winner rank-1 under both robust and nominal ordering with guard_pass_rate 1.0 and robust_utility 0.0706. Formal matched ablations of the sequence prior and entry activation fail to isolate a single decisive driver, so we present the result as a package-level improvement in protocol representation and constrained search rather than a claim about one uniquely critical module or global optimality.",
+    "research_questions": [
+      "Can a richer staged protocol representation improve robust fast-charge search after fixed three-stage search begins to saturate?",
+      "Does the full PSMS-v2 package produce a measurable gain over the EVTBO anchor under the accepted four-metric contract, and do matched single-component ablations justify keeping that claim at the package level?",
+      "Do the PSMS-v2 gains remain visible on a held-out combined-stress bundle outside the search-time scenarios?"
+    ],
+    "methodology": {
+      "problem_setup": "Battery fast-charge protocol search from 10% to 90% SOC within a 30-minute window using PyBaMM DFN simulation with LG M50 / O'Kane2022 parameters and the accepted ax-pybamm-fastcharge comparison family.",
+      "baseline_contract": "Use the accepted ax-pybamm-fastcharge baseline family, with BO_3step_aggressive as the active comparator and EVTBO as the immediate pre-PSMS anchor under the same four canonical metrics Q30, plating_loss, sei_growth, and total_lli.",
+      "method_components": [
+        "Physics-prior masked multi-stage protocol parameterization with explicit entry, monitor, hold, and tail roles.",
+        "Entry-aware staging, optional hold structure, and sequence-order biases that expand the candidate family beyond EVTBO while keeping the same evaluation contract.",
+        "Trust-region local search with feasibility-aware ordering so structurally risky candidates are down-weighted before expensive simulation.",
+        "Guard-based filtering with success_rate and guard_pass_rate treated as hard feasibility signals under the same followup_v1 robust bundle."
+      ],
+      "claim_boundary": "The method is claimed as a local, evidence-supported protocol-representation and feasibility-aware search upgrade within the trusted PyBaMM comparison contract, not as a universal globally optimal fast-charge controller."
+    },
+    "experimental_designs": [
+      "Baseline family rerun and trust confirmation on the existing lumo GPU environment.",
+      "Voltage-aware tapered proxy search that pushed the frontier to UA4_VTBO_3.00C_rest10m_4.25C_tail2.40C.",
+      "EVTBO follow-up search that promoted UA4_EVTBO_3.00C_rest10m_4.30C_v4p16.",
+      "PSMS-v2 larger-budget search over the richer staged family plus a matched two-way ablation suite for sequence prior and entry activation.",
+      "Held-out combined-stress fixed-protocol validation comparing the PSMS-v2 winner, the EVTBO anchor, and BO_3step_aggressive."
+    ],
+    "contributions": [
+      "A physics-prior masked multi-stage protocol representation that moves the search beyond the fixed three-stage family without abandoning the accepted comparison contract.",
+      "A feasibility-aware PSMS search package that combines structured staged candidates, sequence-order biasing, and hard guard filtering; matched ablations show that none of the added ingredients alone is the sole driver under the fixed contract.",
+      "Evidence that PSMS-v2 improves the accepted baseline by +7.19% in nominal Q30, improves the previous EVTBO anchor by +1.20%, and stays rank-1 on a held-out combined-stress bundle."
+    ]
+  },
+  "sections": [
+    {
+      "section_id": "intro",
+      "title": "Introduction",
+      "paper_role": "main_text",
+      "claims": [
+        "claim-local-robust-motivation"
+      ],
+      "required_items": [
+        "baseline-metric-contract",
+        "run-vtbo-ua4-v1",
+        "run-evtbo-ua4-v1",
+        "run-psms-v2-main-v1",
+        "run-2679442d",
+        "run-psms-v5-validate-v1"
+      ],
+      "optional_items": [],
+      "status": "partial",
+      "note": "Motivate why fixed three-stage search begins to saturate after EVTBO and why a richer staged protocol representation is the next defensible move under thermal and degradation stress. Position the paper against BO-based fast-charge search, uncertainty-aware optimization, and safe charging work without claiming a new controller class.",
+      "result_table": [
+        {
+          "item_id": "run-trbo-ua3-v1",
+          "title": "Bounded trust-region robust search around the UA3 incumbent",
+          "kind": "main_experiment",
+          "paper_role": "main_text",
+          "status": "completed",
+          "claim_links": [],
+          "setup_note": "Implemented and ran a bounded adaptive trust-region BO controller in the existing lumo environment. The controller preserved the active comparison contract: baseline ax-pybamm-fastcharge with headline comparator BO_3step_aggressive, required paper-facing metrics Q30/plating_loss/sei_growth/total_lli, and the same five-scenario followup_v1 robustness bundle used by the incumbent line.",
+          "metric_summary": "Q30=0.0927; plating_loss=0.3218; sei_growth=57.7113; total_lli=0.014",
+          "result_summary": "The mechanism upgrade was technically successful: the trust-region BO controller ran end-to-end, wrote full ranked outputs, and produced adaptive candidates under the unchanged evaluation contract. The scientific result was neutral. The robust winner remained UA3_3.00C_rest10m_3.80C, while the nominal-only winner remained BO_3step_conservative. Across 70 scenario evaluations, all candidates simulated successfully but 34 evaluations failed the robust guard, showing that the main bottleneck is feasibility-aware candidate quality rather than simulator execution. The closest safe adaptive candidate, UA3_TRBO_3.00C_rest10m_3.75C, passed all guards but was still slightly worse than the incumbent on the robust score.",
+          "impact_summary": null,
+          "source_paths": [
+            ".ds/worktrees/run-trbo-ua3-v1/experiments/main/run-trbo-ua3-v1/RUN.md",
+            ".ds/worktrees/run-trbo-ua3-v1/experiments/main/run-trbo-ua3-v1/RESULT.json",
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/run-trbo-ua3-v1/experiments/main/ua_trbo_v1/results/ua_trbo_search_summary.json",
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/run-trbo-ua3-v1/experiments/main/ua_trbo_v1/results/ua_trbo_search_ranked_candidates.csv",
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/run-trbo-ua3-v1/experiments/main/ua_trbo_v1/results/ua_trbo_search_scenario_metrics.csv",
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/bash_exec/bash-9a16bb3d/terminal.log"
+          ],
+          "updated_at": "2026-04-15T09:09:30+00:00"
+        },
+        {
+          "item_id": "run-fa-trbo-ua3-v1",
+          "title": "Feasibility-aware trust-region robust search beyond the UA3 incumbent",
+          "kind": "main_experiment",
+          "paper_role": "main_text",
+          "status": "completed",
+          "claim_links": [],
+          "setup_note": "Implemented a feasibility-aware upgrade of the previous trust-region BO controller in the existing lumo environment. The new controller preserved the active comparison contract: baseline ax-pybamm-fastcharge with headline comparator BO_3step_aggressive, required metrics Q30/plating_loss/sei_growth/total_lli, and the same five-scenario followup_v1 robustness bundle. The mechanism change was localized to the proposal rule: a dual-model controller learned both search_objective and guard_pass_rate, then used guard-feasibility-weighted expected improvement to pick new candidates on the same three-parameter protocol surface.",
+          "metric_summary": "Q30=0.0934; plating_loss=0.3218; sei_growth=57.6462; total_lli=0.014",
+          "result_summary": "The feasibility-aware controller produced a real scientific gain. The new robust winner is UA3_TRBO_3.00C_rest10m_3.95C, not the old incumbent UA3_3.00C_rest10m_3.80C. On the nominal surface it improved Q30 from 0.0926797696 to 0.0933852046 while preserving plating_loss and further reducing sei_growth and total_lli. In the bounded main search, the top four adaptive candidates above the old incumbent all kept guard_pass_rate 1.0, and the new winner achieved mean_score 0.0222770421 with worst_score 0.0 and robust_utility 0.0129961619. This is the first line in the project where the mechanism upgrade itself, not just local manual enumeration, materially improves the incumbent.",
+          "impact_summary": null,
+          "source_paths": [
+            ".ds/worktrees/idea-idea-2ccf4917/experiments/main/run-fa-trbo-ua3-v1/RUN.md",
+            ".ds/worktrees/idea-idea-2ccf4917/experiments/main/run-fa-trbo-ua3-v1/RESULT.json",
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/idea-idea-2ccf4917/experiments/main/ua_trbo_v1/results/ua_fa_trbo_search_summary.json",
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/idea-idea-2ccf4917/experiments/main/ua_trbo_v1/results/ua_fa_trbo_search_ranked_candidates.csv",
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/idea-idea-2ccf4917/experiments/main/ua_trbo_v1/results/ua_fa_trbo_search_scenario_metrics.csv",
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/bash_exec/bash-100ddf9a/terminal.log",
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/idea-idea-2ccf4917/experiments/main/ua_trbo_v1/results/ua_fa_trbo_smoke_acq_summary.json"
+          ],
+          "updated_at": "2026-04-15T09:39:20+00:00"
+        },
+        {
+          "item_id": "run-fa-frontier-ua3-v1",
+          "title": "Frontier-anchored feasibility-aware trust-region search beyond the 3.95C winner",
+          "kind": "main_experiment",
+          "paper_role": "main_text",
+          "status": "completed",
+          "claim_links": [],
+          "setup_note": "Used the existing lumo CUDA environment. Reused the ua_trbo_v1 package but changed the active anchor to UA3_TRBO_3.00C_rest10m_3.95C, narrowed the first-rate/rest-time neighborhood, extended third-stage current search up to 4.15C, and biased candidate sampling toward the local upper frontier while keeping the same four-metric comparison contract and robust guard-first ranking rule.",
+          "metric_summary": "Q30=0.0944; plating_loss=0.3218; sei_growth=57.5766; total_lli=0.014",
+          "result_summary": "The main frontier-followup search confirmed UA3_TRBO_3.00C_rest10m_4.15C as the new robust top candidate. Relative to the 3.95C anchor, the nominal metrics improved to Q30=0.09440408660083764, plating_loss=0.3218373881357771, sei_growth=57.57659506258706, and total_lli=0.014026363883363733. Across the full followup_v1 bundle the winner kept guard_pass_rate=1.0, and the search controller converged at best_point=[3.0,10.0,4.15] with stop_reason=trust_region_floor.",
+          "impact_summary": null,
+          "source_paths": [
+            ".ds/worktrees/idea-idea-2b589b9b/experiments/main/run-fa-frontier-ua3-v1/RUN.md",
+            ".ds/worktrees/idea-idea-2b589b9b/experiments/main/run-fa-frontier-ua3-v1/RESULT.json",
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/idea-idea-2b589b9b/experiments/main/ua_trbo_v1/results/ua_fa_frontier_smoke_summary.json",
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/idea-idea-2b589b9b/experiments/main/ua_trbo_v1/results/ua_fa_frontier_search_summary.json",
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/idea-idea-2b589b9b/experiments/main/ua_trbo_v1/results/ua_fa_frontier_search_ranked_candidates.csv",
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/idea-idea-2b589b9b/experiments/main/ua_trbo_v1/results/ua_fa_frontier_search_scenario_metrics.csv"
+          ],
+          "updated_at": "2026-04-15T10:05:27+00:00"
+        },
+        {
+          "item_id": "run-vtbo-ua4-v1",
+          "title": "Voltage-aware tapered proxy search beyond the 4.15C incumbent",
+          "kind": "main_experiment",
+          "paper_role": "main_text",
+          "status": "completed",
+          "claim_links": [],
+          "setup_note": "Used the existing lumo CUDA environment and the new ua_vtbo_v1 package on the dedicated run branch. The search family exposed four parameters: first_rate, rest_minutes, third_rate, and tail_rate, while keeping a fixed 3-minute tail window as the first voltage-aware proxy. The comparison contract, guard-first ranking rule, and baseline references were unchanged.",
+          "metric_summary": "Q30=0.0949; plating_loss=0.3218; sei_growth=57.548; total_lli=0.014",
+          "result_summary": "The robust top protocol was UA4_VTBO_3.00C_rest10m_4.25C_tail2.40C. Its nominal metrics were Q30=0.09494306799062802 Ah, plating_loss=0.3218373881357771 Ah, sei_growth=57.547978013417904 nm, and total_lli=0.014025360821606166 mol. Relative to the prior 4.15C incumbent, nominal Q30 improved by +0.0005389813897903745 Ah (+0.57%), plating_loss stayed equal, sei_growth improved by -0.028617049169156417 nm, and total_lli improved by -1.003061757565496e-06 mol. Relative to BO_3step_aggressive, nominal Q30 improved by +0.005048054532459795 Ah (+5.62%), plating_loss improved by -0.00033812742771810456 Ah, sei_growth improved by -0.8141897102389706 nm, and total_lli improved by -4.115436317315112e-05 mol. The robust aggregate for the winner was success_rate=1.0, guard_pass_rate=1.0, mean_score=0.0217539631976511, worst_score=0.0, and robust_utility=0.01263747343014421.",
+          "impact_summary": null,
+          "source_paths": [
+            ".ds/worktrees/run-vtbo-ua4-v1/experiments/main/run-vtbo-ua4-v1/RUN.md",
+            ".ds/worktrees/run-vtbo-ua4-v1/experiments/main/run-vtbo-ua4-v1/RESULT.json",
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/run-vtbo-ua4-v1/experiments/main/ua_vtbo_v1/results/ua_vtbo_search_summary.json",
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/run-vtbo-ua4-v1/experiments/main/ua_vtbo_v1/results/ua_vtbo_search_ranked_candidates.csv",
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/run-vtbo-ua4-v1/experiments/main/ua_vtbo_v1/results/ua_vtbo_search_scenario_metrics.csv",
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/idea-idea-d4059625/.ds/bash_exec/bash-154878a8/terminal.log"
+          ],
+          "updated_at": "2026-04-15T10:52:31+00:00"
+        },
+        {
+          "item_id": "run-evtbo-ua4-v1",
+          "title": "UA_EVTBO v1 bounded robust search on followup_v1",
+          "kind": "main_experiment",
+          "paper_role": "main_text",
+          "status": "completed",
+          "claim_links": [],
+          "setup_note": "Used the accepted ax-pybamm-fastcharge baseline contract in the `lumo` environment, extended with backward-compatible native PyBaMM charge-step support. The main run evaluated the ua_evtbo_v1 guard-then-trigger protocol family against the current incumbent UA4_VTBO_3.00C_rest10m_4.25C_tail2.40C under the followup_v1 five-scenario robust bundle.",
+          "metric_summary": "Q30=0.0952; plating_loss=0.3218; sei_growth=57.5349; total_lli=0.014",
+          "result_summary": "The run selected UA4_EVTBO_3.00C_rest10m_4.30C_v4p16 as the robust top candidate. Relative to the current incumbent, it achieved success_rate=1.0 and guard_pass_rate=1.0, nominal Q30 0.0952188872 vs 0.0949430680, warm-cell Q30 0.0975657353 vs 0.0974793778, and hot-cell Q30 0.0991951788 vs 0.0992325685. Plating loss, SEI growth, and total LLI were improved or unchanged in every scenario where the candidate differed from the incumbent. Relative to baseline BO_3step_aggressive, the new candidate ranked first while the baseline ranked ninth with guard_pass_rate 0.4 and much worse robust utility.",
+          "impact_summary": null,
+          "source_paths": [
+            ".ds/worktrees/run-evtbo-ua4-v1/experiments/main/run-evtbo-ua4-v1/RUN.md",
+            ".ds/worktrees/run-evtbo-ua4-v1/experiments/main/run-evtbo-ua4-v1/RESULT.json",
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/run-evtbo-ua4-v1/experiments/main/ua_evtbo_v1/results/ua_evtbo_search_summary.json",
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/run-evtbo-ua4-v1/experiments/main/ua_evtbo_v1/results/ua_evtbo_search_ranked_candidates.csv",
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/run-evtbo-ua4-v1/experiments/main/ua_evtbo_v1/results/ua_evtbo_search_scenario_metrics.csv"
+          ],
+          "updated_at": "2026-04-15T11:48:35+00:00"
+        },
+        {
+          "item_id": "run-psms-v2-main-v1",
+          "title": "PSMS-v2 larger-budget robust search beyond the EVTBO anchor",
+          "kind": "main_experiment",
+          "paper_role": "main_text",
+          "status": "completed",
+          "claim_links": [],
+          "setup_note": "Use the accepted PyBaMM fast-charge baseline contract on the existing lumo environment. Search on the followup_v1 five-scenario bundle with the EVTBO incumbent UA4_EVTBO_3.00C_rest10m_4.30C_v4p16 as the anchor. PSMS-v2 adds a separate entry-rate dimension and a sequence-feasibility prior inside the trust-region acquisition.",
+          "metric_summary": "Q30=0.0964; plating_loss=0.3218; sei_growth=57.4898; total_lli=0.014",
+          "result_summary": "The main experiment promoted UA5_PSMS_3.00C_rest10m_4.30C_e4.50_v4p18_h3.35_1p5m as the robust top protocol. It kept success_rate=1.0 and guard_pass_rate=1.0 across the five followup_v1 scenarios while improving nominal Q30 to 0.09636 Ah versus 0.09522 Ah for the EVTBO anchor and 0.08990 Ah for the accepted baseline. Relative to the EVTBO anchor, the winner improved mean Q30 by +0.00358, plating_loss by +0.09569, sei_growth by +0.00111, and total_lli by +0.06517 on the accepted relative-delta surface, with worst-case deltas staying non-negative on the four canonical metrics.",
+          "impact_summary": null,
+          "source_paths": [
+            ".ds/worktrees/idea-idea-8d0629d2/experiments/main/run-psms-v2-main-v1/RUN.md",
+            ".ds/worktrees/idea-idea-8d0629d2/experiments/main/run-psms-v2-main-v1/RESULT.json",
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/idea-idea-8d0629d2/experiments/main/ua_psms_v1/results/ua_psms_v2_search_main_summary.json",
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/idea-idea-8d0629d2/experiments/main/ua_psms_v1/results/ua_psms_v2_search_main_ranked_candidates.csv",
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/idea-idea-8d0629d2/experiments/main/ua_psms_v1/results/ua_psms_v2_search_main_scenario_metrics.csv"
+          ],
+          "updated_at": "2026-04-15T16:55:14+00:00"
+        },
+        {
+          "item_id": "run-2679442d",
+          "title": "PSMS-v3 formal search with a learned feasibility gate",
+          "kind": "main_experiment",
+          "paper_role": "main_text",
+          "status": "completed",
+          "claim_links": [],
+          "setup_note": "Used the same UA4 anchor family and followup_v1 scenario set as the PSMS-v2 larger-budget search, but enabled the lightweight learned feasibility gate discovered in smoke tests. The formal search used search_budget=12 and preserved the confirmed comparison metrics Q30, plating_loss, sei_growth, and total_lli.",
+          "metric_summary": "Q30=0.0964; plating_loss=0.3218; sei_growth=57.4898; total_lli=0.014",
+          "result_summary": "The formal PSMS-v3 run did not improve on PSMS-v2. It produced the same robust top protocol as the prior PSMS-v2 larger-budget search: UA5_PSMS_3.00C_rest10m_4.30C_e4.50_v4p18_h3.35_1p5m. The top-ranked table and summary metadata matched PSMS-v2 exactly, including robust_utility=0.023824166035076547, mean_score=0.04138956386002244, mean_delta_Q30=0.0035845855267959232, and adaptive_candidates_evaluated=11. The learned prior was active and trained on 86 rows (33 feasible, 53 infeasible), but it did not change the final ranking outcome.",
+          "impact_summary": null,
+          "source_paths": [
+            ".ds/worktrees/run-2679442d/experiments/main/run-2679442d/RUN.md",
+            ".ds/worktrees/run-2679442d/experiments/main/run-2679442d/RESULT.json",
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/run-2679442d/experiments/main/ua_psms_v1/results/ua_psms_v3_search_main_summary.json",
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/run-2679442d/experiments/main/ua_psms_v1/results/ua_psms_v3_search_main_ranked_candidates.csv",
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/run-2679442d/experiments/main/ua_psms_v1/results/ua_psms_v3_search_main_scenario_metrics.csv",
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/run-2679442d/experiments/main/ua_psms_v1/results/ua_psms_v3_search_main_learned_prior.json",
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/run-2679442d/experiments/main/ua_psms_v1/results/ua_psms_v2_search_main_summary.json",
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/run-2679442d/experiments/main/run-psms-v2-main-v1/RESULT.json"
+          ],
+          "updated_at": "2026-04-16T04:04:26+00:00"
+        },
+        {
+          "item_id": "run-psms-v5-validate-v1",
+          "title": "PSMS-v5 warm-start candidate validation against the PSMS-v2 incumbent",
+          "kind": "main_experiment",
+          "paper_role": "main_text",
+          "status": "completed",
+          "claim_links": [],
+          "setup_note": "Used the accepted baseline contract `ax-pybamm-fastcharge` / `bo_3step_aggressive` and rebuilt the two warm-start candidates from stored search points in `ua_psms_v5_warmstart_smoke12_summary.json`. Repaired the focused validation runner so it reuses the shared parameter-update path and only passes `charge_steps` when the simulator signature supports it.",
+          "metric_summary": "Q30=0.0964; plating_loss=0.3218; sei_growth=57.4898; total_lli=0.014",
+          "result_summary": "Full followup_v1 validation finished cleanly for three protocols. The incumbent `UA5_PSMS_3.00C_rest10m_4.30C_e4.50_v4p18_h3.35_1p5m` stayed robust-top with `guard_pass_rate=1.0` and `worst_score=0.0`. The conservative warm-start candidate `UA5_PSMS_3.00C_rest11m_4.30C_e4.40_v4p17_h3.50_1m` reached `guard_pass_rate=0.4`, `worst_score=-0.04108363187839041`, `robust_utility=0.119607248106129`, `mean_delta_Q30=0.5812408542161849`, and `mean_delta_total_lli=0.11577338364283643`. The promoted acquisition candidate `UA5_PSMS_3.00C_rest12m_4.30C_e4.35_v4p17_h3.50_1m` became nominal-top but still failed the robust gate with `guard_pass_rate=0.4`, `worst_score=-0.05340962833828226`, `robust_utility=0.1636056954924982`, `mean_delta_Q30=0.635357191521795`, and `mean_delta_total_lli=0.20900507638169738`. Both warm-start candidates failed guard checks in `hot_cell`, `plating_stress`, and `sei_stress`, so this validation downgrades the warm-start line from promotion-ready evidence back to exploratory evidence.",
+          "impact_summary": null,
+          "source_paths": [
+            ".ds/worktrees/idea-idea-4ee1f41d/experiments/main/run-psms-v5-validate-v1/RUN.md",
+            ".ds/worktrees/idea-idea-4ee1f41d/experiments/main/run-psms-v5-validate-v1/RESULT.json",
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/idea-idea-4ee1f41d/experiments/main/ua_psms_v1/results/ua_psms_v5_candidate_validate_summary.json",
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/idea-idea-4ee1f41d/experiments/main/ua_psms_v1/results/ua_psms_v5_candidate_validate_ranked_candidates.csv",
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/idea-idea-4ee1f41d/experiments/main/ua_psms_v1/results/ua_psms_v5_candidate_validate_scenario_metrics.csv",
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/idea-idea-4ee1f41d/experiments/main/ua_psms_v1/results/ua_psms_v5_candidate_validate_smoke_summary.json"
+          ],
+          "updated_at": "2026-04-16T06:18:34+00:00"
+        }
+      ]
+    },
+    {
+      "section_id": "method",
+      "title": "Method",
+      "paper_role": "main_text",
+      "claims": [
+        "claim-method-extension"
+      ],
+      "required_items": [
+        "baseline-metric-contract",
+        "run-evtbo-ua4-v1",
+        "run-psms-v2-main-v1"
+      ],
+      "optional_items": [],
+      "status": "partial",
+      "note": "Explain how PSMS-v2 extends EVTBO with a richer staged protocol family and feasibility-aware constrained search while preserving hard guard filtering and the accepted four-metric contract. Make explicit that entry activation and sequence-order bias are package ingredients, but the supported claim is the joint PSMS package rather than any single decisive component.",
+      "result_table": []
+    },
+    {
+      "section_id": "experimental-setup",
+      "title": "Experimental Setup",
+      "paper_role": "main_text",
+      "claims": [
+        "claim-fixed-comparison-contract"
+      ],
+      "required_items": [
+        "baseline-metric-contract",
+        "run-evtbo-ua4-v1",
+        "run-psms-v2-main-v1",
+        "heldout-combo-v1"
+      ],
+      "optional_items": [
+        "run-vtbo-ua4-v1"
+      ],
+      "status": "ready",
+      "note": "Document the accepted PyBaMM comparison contract, the followup_v1 robust bundle used for frontier search, and the heldout_combo_v1 bundle used for out-of-bundle validation.",
+      "result_table": []
+    },
+    {
+      "section_id": "main-results",
+      "title": "Main Results",
+      "paper_role": "main_text",
+      "claims": [
+        "claim-final-beats-baseline",
+        "claim-followup-strengthens-run"
+      ],
+      "required_items": [
+        "baseline-metric-contract",
+        "run-vtbo-ua4-v1",
+        "run-evtbo-ua4-v1",
+        "run-psms-v2-main-v1"
+      ],
+      "optional_items": [],
+      "status": "ready",
+      "note": "Compare BO_3step_aggressive, UA4_VTBO_3.00C_rest10m_4.25C_tail2.40C, UA4_EVTBO_3.00C_rest10m_4.30C_v4p16, and the final PSMS-v2 winner on the canonical metrics, emphasizing the +7.19% gain over baseline and the +1.20% gain over EVTBO in nominal Q30.",
+      "result_table": [
+        {
+          "item_id": "run-vtbo-ua4-v1",
+          "title": "Voltage-aware tapered proxy search beyond the 4.15C incumbent",
+          "kind": "main_experiment",
+          "paper_role": "main_text",
+          "status": "completed",
+          "claim_links": [
+            "claim-followup-strengthens-run"
+          ],
+          "setup_note": "Used the accepted lumo PyBaMM environment and kept the four canonical metrics unchanged while extending the protocol family with a tail-rate dimension.",
+          "metric_summary": "Q30=0.09494; plating_loss=0.32184; sei_growth=57.54798; total_lli=0.01402536",
+          "result_summary": "VTBO pushed the frontier beyond the 4.15C incumbent and improved nominal Q30 by +5.62% over BO_3step_aggressive while keeping full guard feasibility.",
+          "impact_summary": "This established the last strong fixed-family improvement before EVTBO and PSMS-v2.",
+          "source_paths": [
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/run-vtbo-ua4-v1/experiments/main/run-vtbo-ua4-v1/RESULT.json",
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/run-vtbo-ua4-v1/experiments/main/ua_vtbo_v1/results/ua_vtbo_search_summary.json"
+          ],
+          "updated_at": "2026-04-15T10:52:31+00:00"
+        },
+        {
+          "item_id": "run-evtbo-ua4-v1",
+          "title": "UA_EVTBO v1 bounded robust search on followup_v1",
+          "kind": "main_experiment",
+          "paper_role": "main_text",
+          "status": "completed",
+          "claim_links": [
+            "claim-followup-strengthens-run"
+          ],
+          "setup_note": "Kept the accepted four-metric contract and used EVTBO as the immediate pre-PSMS frontier anchor under the same followup_v1 robust bundle.",
+          "metric_summary": "Q30=0.09522; plating_loss=0.32184; sei_growth=57.53493; total_lli=0.01402490",
+          "result_summary": "EVTBO improved nominal Q30 over VTBO while preserving success_rate=1.0 and guard_pass_rate=1.0, becoming the last previous SOTA line before PSMS-v2.",
+          "impact_summary": "This defines the direct predecessor that PSMS-v2 must beat to justify a new method story.",
+          "source_paths": [
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/run-evtbo-ua4-v1/experiments/main/run-evtbo-ua4-v1/RESULT.json",
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/run-evtbo-ua4-v1/experiments/main/ua_evtbo_v1/results/ua_evtbo_search_summary.json"
+          ],
+          "updated_at": "2026-04-15T11:48:35+00:00"
+        },
+        {
+          "item_id": "run-psms-v2-main-v1",
+          "title": "PSMS-v2 larger-budget robust search beyond the EVTBO anchor",
+          "kind": "main_experiment",
+          "paper_role": "main_text",
+          "status": "completed",
+          "claim_links": [
+            "claim-final-beats-baseline",
+            "claim-followup-strengthens-run"
+          ],
+          "setup_note": "Reused the accepted PyBaMM fast-charge contract and the followup_v1 robust bundle, but searched a richer PSMS-v2 staged family with entry/monitor/hold roles and feasibility-aware ordering under the same robust ranking rule.",
+          "metric_summary": "Q30=0.09636; plating_loss=0.32184; sei_growth=57.48976; total_lli=0.01402332",
+          "result_summary": "PSMS-v2 promoted UA5_PSMS_3.00C_rest10m_4.30C_e4.50_v4p18_h3.35_1p5m as the robust top protocol. Nominal Q30 improved by +7.19% over BO_3step_aggressive and by +1.20% over EVTBO, while plating_loss stayed flat and both sei_growth and total_lli improved.",
+          "impact_summary": "This is the headline evidence that the full PSMS package improves the frontier while preserving full feasibility; the later ablations bound that claim at the package level rather than a single-component mechanism.",
+          "source_paths": [
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/idea-idea-8d0629d2/experiments/main/run-psms-v2-main-v1/RESULT.json",
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/idea-idea-8d0629d2/experiments/main/ua_psms_v1/results/ua_psms_v2_search_main_summary.json"
+          ],
+          "updated_at": "2026-04-15T16:55:14+00:00"
+        }
+      ]
+    },
+    {
+      "section_id": "heldout-validation",
+      "title": "Held-out Combined-Stress Validation",
+      "paper_role": "main_text",
+      "claims": [
+        "claim-heldout-rank1"
+      ],
+      "required_items": [
+        "run-ua3-local-v1",
+        "heldout-combo-v1"
+      ],
+      "optional_items": [],
+      "status": "planned",
+      "note": "Show that the final winner remains top-ranked outside the search bundle and keep the held-out scope explicit.",
+      "result_table": [
+        {
+          "item_id": "heldout-combo-v1",
+          "title": "Held-out combined-stress validation of the PSMS-v2 winner",
+          "kind": "analysis_report",
+          "paper_role": "main_text",
+          "status": "completed",
+          "claim_links": [
+            "claim-heldout-rank1",
+            "claim-local-boundary"
+          ],
+          "setup_note": "Reused the fixed-protocol held-out validator on nominal, hot_plating_combo, hot_sei_combo, and hot_dual_combo. Compared the PSMS-v2 main winner, the EVTBO anchor, and BO_3step_aggressive under the unchanged four-metric comparison contract.",
+          "metric_summary": "robust_utility=0.0706; mean_score=0.0877; worst_score=0.0032; guard_pass_rate=1.0",
+          "result_summary": "UA5_PSMS_3.00C_rest10m_4.30C_e4.50_v4p18_h3.35_1p5m stayed rank-1 under both robust and nominal ordering on heldout_combo_v1. Relative to the EVTBO anchor, mean deltas remained positive and worst-case deltas stayed non-negative across Q30, plating_loss, sei_growth, and total_lli. BO_3step_aggressive dropped to guard_pass_rate=0.0 and robust_utility=-0.6077.",
+          "impact_summary": "This upgrades the PSMS-v2 line from a strong main-run result to held-out-supported main-text evidence and supports moving directly into paper drafting.",
+          "source_paths": [
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/idea-idea-8d0629d2/experiments/analysis/heldout_combo_validation/results/psms_v2_heldout_combo_v1_summary.json",
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/idea-idea-8d0629d2/experiments/analysis/heldout_combo_validation/results/psms_v2_heldout_combo_v1_scenario_metrics.csv",
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/idea-idea-8d0629d2/artifacts/reports/report-ad747cca.json"
+          ],
+          "updated_at": "2026-04-15T17:18:25+00:00"
+        }
+      ]
+    },
+    {
+      "section_id": "discussion",
+      "title": "Discussion and Limitations",
+      "paper_role": "appendix",
+      "claims": [
+        "claim-local-boundary"
+      ],
+      "required_items": [
+        "run-psms-v2-main-v1",
+        "heldout-combo-v1"
+      ],
+      "optional_items": [
+        "psms-ablation-sequence-prior",
+        "psms-ablation-entry-activation"
+      ],
+      "status": "planned",
+      "note": "State exactly what is supported by the PSMS-v2 main run and the held-out bundle, and keep the boundary explicit: this is a local but defensible robustness result, not a universal optimality proof.",
+      "result_table": [
+        {
+          "item_id": "psms-ablation-sequence-prior",
+          "title": "Ablate sequence-feasibility prior",
+          "kind": "analysis_slice",
+          "paper_role": "appendix",
+          "status": "completed",
+          "claim_links": [
+            "claim-local-boundary"
+          ],
+          "setup_note": "Reuse the existing ua_psms_v1 robust search output that disables only the sequence-feasibility prior while keeping the accepted four-metric contract, ranking rule, followup_v1 bundle, and PyBaMM evaluation path unchanged.",
+          "metric_summary": null,
+          "result_summary": "The no-sequence-prior rerun still recovered the PSMS winner family with full feasibility. The top candidate `UA5_PSMS_3.00C_rest10m_4.30C_e4.50_v4p18_h3.35_1p5m_noprior` achieved success_rate=1.0, guard_pass_rate=1.0, mean_score=0.04138956386002244, worst_score=0.0, and robust_utility=0.023824166035076547 versus the EVTBO anchor. This rules out the sequence prior as a standalone explanation for the gain and supports keeping the paper claim at the package level.",
+          "impact_summary": "rules out the sequence prior as a standalone explanation for the gain and supports the package-level PSMS claim",
+          "source_paths": [
+            ".ds/worktrees/analysis-analysis-dcc6d3b2-ablate-sequence-prior/experiments/analysis/analysis-dcc6d3b2/ablate-sequence-prior/RESULT.md",
+            ".ds/worktrees/analysis-analysis-dcc6d3b2-ablate-sequence-prior/experiments/analysis/analysis-dcc6d3b2/ablate-sequence-prior/RESULT.json",
+            ".ds/worktrees/idea-idea-8d0629d2/experiments/analysis-results/analysis-dcc6d3b2/ablate-sequence-prior.md",
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/idea-idea-8d0629d2/experiments/main/ua_psms_v1/results/ua_psms_ablate_seqprior_search_summary.json",
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/idea-idea-8d0629d2/experiments/main/ua_psms_v1/results/ua_psms_ablate_seqprior_search_ranked_candidates.csv",
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/idea-idea-8d0629d2/experiments/main/ua_psms_v1/results/ua_psms_ablate_seqprior_search_scenario_metrics.csv",
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/paper-run-psms-v2-main-v1/artifacts/reports/report-443fef3f.json"
+          ],
+          "updated_at": "2026-04-16T13:05:36+00:00"
+        },
+        {
+          "item_id": "psms-ablation-entry-activation",
+          "title": "Ablate entry activation",
+          "kind": "analysis_slice",
+          "paper_role": "appendix",
+          "status": "completed",
+          "claim_links": [
+            "claim-local-boundary"
+          ],
+          "setup_note": "Ran one full comparable no-entry rerun with the existing ua_psms_v1 robust search runner, disabling only entry activation while keeping the accepted four-metric contract, ranking rule, followup_v1 bundle, anchor protocol, and PyBaMM evaluation path unchanged.",
+          "metric_summary": "success_rate=1; guard_pass_rate=1; worst_score=0; robust_utility=0; mean_delta_Q30=0; mean_delta_plating_loss=0",
+          "result_summary": "The full no-entry rerun did not materially weaken the line. The robust top remained the EVTBO anchor `UA4_EVTBO_3.00C_rest10m_4.30C_v4p16`, and the first no-entry PSMS candidate `UA5_PSMS_3.00C_rest10m_4.30C_e4.30_v4p16_h3.35_0m_noentry` matched the anchor exactly across all five scenarios with success_rate=1.0, guard_pass_rate=1.0, mean_score=0.0, worst_score=0.0, robust_utility=0.0, and zero mean/worst deltas on Q30, plating_loss, sei_growth, and total_lli. This rules out entry activation as a standalone explanation for the gain and supports keeping the paper claim at the package level.",
+          "impact_summary": "rules out entry activation as a standalone explanation for the gain and supports the package-level PSMS claim",
+          "source_paths": [
+            ".ds/worktrees/analysis-analysis-dcc6d3b2-ablate-entry-activation/experiments/analysis/analysis-dcc6d3b2/ablate-entry-activation/RESULT.md",
+            ".ds/worktrees/analysis-analysis-dcc6d3b2-ablate-entry-activation/experiments/analysis/analysis-dcc6d3b2/ablate-entry-activation/RESULT.json",
+            ".ds/worktrees/idea-idea-8d0629d2/experiments/analysis-results/analysis-dcc6d3b2/ablate-entry-activation.md",
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/analysis-analysis-dcc6d3b2-ablate-entry-activation/experiments/main/ua_psms_v1/results/ua_psms_ablate_entryactivation_search_summary.json",
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/analysis-analysis-dcc6d3b2-ablate-entry-activation/experiments/main/ua_psms_v1/results/ua_psms_ablate_entryactivation_search_ranked_candidates.csv",
+            "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/analysis-analysis-dcc6d3b2-ablate-entry-activation/experiments/main/ua_psms_v1/results/ua_psms_ablate_entryactivation_search_scenario_metrics.csv"
+          ],
+          "updated_at": "2026-04-16T13:24:25+00:00"
+        }
+      ]
+    },
+    {
+      "section_id": "baseline-family-rerun-and-trust-confirmation-on-the-existing-lumo-gpu-environment",
+      "title": "baseline-family-rerun-and-trust-confirmation-on-the-existing-lumo-gpu-environment",
+      "paper_role": "main_text",
+      "claims": [],
+      "required_items": [],
+      "optional_items": [],
+      "status": "planned",
+      "note": null,
+      "result_table": []
+    },
+    {
+      "section_id": "first-bounded-uncertainty-aware-robust-search-that-promoted-ua3-3-00c-rest10m-3-40c-over-bo-3step-aggressive-on-robust-ranking",
+      "title": "first-bounded-uncertainty-aware-robust-search-that-promoted-ua3-3-00c-rest10m-3-40c-over-bo-3step-aggressive-on-robust-ranking",
+      "paper_role": "main_text",
+      "claims": [],
+      "required_items": [],
+      "optional_items": [],
+      "status": "planned",
+      "note": null,
+      "result_table": []
+    },
+    {
+      "section_id": "follow-up-ua3-local-robust-search-with-hot-cell-validation-that-promoted-ua3-3-00c-rest10m-3-80c",
+      "title": "follow-up-ua3-local-robust-search-with-hot-cell-validation-that-promoted-ua3-3-00c-rest10m-3-80c",
+      "paper_role": "main_text",
+      "claims": [],
+      "required_items": [],
+      "optional_items": [],
+      "status": "planned",
+      "note": null,
+      "result_table": []
+    },
+    {
+      "section_id": "held-out-combined-stress-fixed-protocol-validation-comparing-the-final-winner-the-previous-winner-and-bo-3step-aggressive",
+      "title": "held-out-combined-stress-fixed-protocol-validation-comparing-the-final-winner-the-previous-winner-and-bo-3step-aggressive",
+      "paper_role": "main_text",
+      "claims": [],
+      "required_items": [],
+      "optional_items": [],
+      "status": "planned",
+      "note": null,
+      "result_table": []
+    }
+  ],
+  "evidence_contract": {
+    "main_text_items_must_be_ready": true,
+    "appendix_items_may_be_ready_or_reference_only": true,
+    "record_results_back_into_outline": true,
+    "result_table_required": true
+  },
+  "created_at": "2026-04-15T04:52:02+00:00",
+  "updated_at": "2026-04-17T06:28:42+00:00"
+}

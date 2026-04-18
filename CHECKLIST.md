@@ -1,0 +1,7 @@
+- [x] Add fair from-scratch benchmark runner
+- [x] Add root-level launch mode in `run.sh`
+- [x] Verify script imports and environment
+- [x] Run smoke benchmark
+- [x] Inspect produced summary JSON and ranked CSV
+- [x] Estimate runtime for larger budget
+- [x] Launch equal-budget benchmark for real comparison

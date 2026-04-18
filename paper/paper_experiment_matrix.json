@@ -1,0 +1,201 @@
+{
+  "schema_version": 1,
+  "title": "Paper Experiment Matrix",
+  "updated_at": "2026-04-17T06:28:42+00:00",
+  "current_judgment": "The current evidence is sufficient to present PSMS-v2 as the verified incumbent under the accepted GitHub/PyBaMM contract, but not sufficient to claim superiority on every possible fast-charge task, cell condition, or external benchmark.",
+  "rows": [
+    {
+      "item_id": "baseline-metric-contract",
+      "role": "comparison_contract",
+      "placement": "main_text",
+      "status": "completed",
+      "required": true,
+      "tested_surface": "Fixed Q30 / plating_loss / sei_growth / total_lli contract with BO_3step_aggressive as the accepted comparator.",
+      "why_it_matters": "Keeps every later frontier step on one auditable comparison surface."
+    },
+    {
+      "item_id": "run-vtbo-ua4-v1",
+      "role": "frontier_context",
+      "placement": "main_text",
+      "status": "completed",
+      "required": true,
+      "tested_surface": "Nominal surface plus nominal, warm_cell, hot_cell, plating_stress, and sei_stress in followup_v1.",
+      "why_it_matters": "Shows the last strong fixed-family gain before EVTBO and PSMS-v2.",
+      "key_numbers": [
+        "Q30=0.09494",
+        "guard_pass_rate=1.0"
+      ]
+    },
+    {
+      "item_id": "run-evtbo-ua4-v1",
+      "role": "immediate_predecessor",
+      "placement": "main_text",
+      "status": "completed",
+      "required": true,
+      "tested_surface": "Nominal surface plus nominal, warm_cell, hot_cell, plating_stress, and sei_stress in followup_v1.",
+      "why_it_matters": "Defines the previous verified anchor that PSMS-v2 must beat.",
+      "key_numbers": [
+        "Q30=0.09522",
+        "guard_pass_rate=1.0"
+      ]
+    },
+    {
+      "item_id": "run-psms-v2-main-v1",
+      "role": "headline_result",
+      "placement": "main_text",
+      "status": "completed",
+      "required": true,
+      "tested_surface": "Nominal surface plus nominal, warm_cell, hot_cell, plating_stress, and sei_stress in followup_v1.",
+      "why_it_matters": "Provides the main quantitative win and the promoted final protocol.",
+      "key_numbers": [
+        "Q30: 0.08990 -> 0.09636 (+7.19%) vs baseline",
+        "Q30: 0.09522 -> 0.09636 (+1.20%) vs EVTBO",
+        "guard_pass_rate=1.0"
+      ]
+    },
+    {
+      "item_id": "heldout-combo-v1",
+      "role": "out_of_bundle_robustness_support",
+      "placement": "main_text",
+      "status": "completed",
+      "required": true,
+      "tested_surface": "nominal, hot_plating_combo, hot_sei_combo, and hot_dual_combo.",
+      "why_it_matters": "Shows that the promoted winner stays rank-1 after leaving the search-time bundle.",
+      "key_numbers": [
+        "robust_utility=0.0706446402",
+        "mean_score=0.0877213802",
+        "worst_score=0.0032145165",
+        "guard_pass_rate=1.0"
+      ]
+    },
+    {
+      "item_id": "run-psms-v5-validate-v1",
+      "role": "negative_stability_check",
+      "placement": "discussion_appendix",
+      "status": "completed",
+      "required": false,
+      "tested_surface": "Focused warm-start candidate revalidation on nominal, warm_cell, hot_cell, plating_stress, and sei_stress in followup_v1.",
+      "why_it_matters": "Rejects nominal-only challengers that fail the robust gate and keeps PSMS-v2 as the verified incumbent.",
+      "key_numbers": [
+        "two challengers fell to guard_pass_rate=0.4",
+        "failures appeared in hot_cell, plating_stress, and sei_stress"
+      ]
+    },
+    {
+      "item_id": "psms-ablation-sequence-prior",
+      "role": "attribution_boundary",
+      "placement": "appendix",
+      "status": "completed",
+      "required": false,
+      "tested_surface": "Matched rerun on nominal, warm_cell, hot_cell, plating_stress, and sei_stress in followup_v1 with only the sequence prior removed.",
+      "why_it_matters": "Shows that the sequence prior alone is not the sole explanation for the gain.",
+      "key_numbers": [
+        "robust_utility=0.0238241660"
+      ]
+    },
+    {
+      "item_id": "psms-ablation-entry-activation",
+      "role": "attribution_boundary",
+      "placement": "appendix",
+      "status": "completed",
+      "required": false,
+      "tested_surface": "Matched rerun on nominal, warm_cell, hot_cell, plating_stress, and sei_stress in followup_v1 with only entry activation removed.",
+      "why_it_matters": "Shows that entry activation alone is not the sole explanation for the gain.",
+      "key_numbers": [
+        "robust_utility=0.0",
+        "candidate tied the EVTBO anchor exactly"
+      ]
+    }
+  ],
+  "task_wise_verdicts": [
+    {
+      "bundle_id": "main_contract",
+      "scenarios": [
+        "nominal"
+      ],
+      "verdict": "PSMS-v2 is the strongest verified protocol on the fixed four-metric nominal surface.",
+      "claim_scope": "Supports the contract-level win over BO_3step_aggressive and EVTBO, but not robustness by itself."
+    },
+    {
+      "bundle_id": "followup_v1",
+      "scenarios": [
+        "nominal",
+        "warm_cell",
+        "hot_cell",
+        "plating_stress",
+        "sei_stress"
+      ],
+      "verdict": "The promoted PSMS-v2 winner stays fully feasible across the full in-bundle stress set.",
+      "claim_scope": "Shows the result is stable inside the accepted GitHub/PyBaMM scenario family, not across every external task."
+    },
+    {
+      "bundle_id": "heldout_combo_v1",
+      "scenarios": [
+        "nominal",
+        "hot_plating_combo",
+        "hot_sei_combo",
+        "hot_dual_combo"
+      ],
+      "verdict": "The same winner remains rank-1 after leaving the search bundle.",
+      "claim_scope": "Supports one controlled out-of-bundle robustness check, not universal transfer."
+    },
+    {
+      "bundle_id": "warm_start_revalidation",
+      "scenarios": [
+        "nominal",
+        "warm_cell",
+        "hot_cell",
+        "plating_stress",
+        "sei_stress"
+      ],
+      "verdict": "Two nominal-stronger challengers fail the robust gate in hot_cell, plating_stress, and sei_stress.",
+      "claim_scope": "Explains why nominal-only challengers do not replace the verified incumbent."
+    },
+    {
+      "bundle_id": "matched_ablations",
+      "scenarios": [
+        "nominal",
+        "warm_cell",
+        "hot_cell",
+        "plating_stress",
+        "sei_stress"
+      ],
+      "verdict": "No single component removal collapses the line by itself.",
+      "claim_scope": "Keeps the method claim package-level rather than single-module."
+    },
+    {
+      "bundle_id": "untested_scope",
+      "scenarios": [
+        "other_chemistries",
+        "other_simulators",
+        "broader_external_benchmarks"
+      ],
+      "verdict": "No verified result yet.",
+      "claim_scope": "No honest all-task or universal-optimality claim."
+    }
+  ],
+  "supported_claims": [
+    {
+      "claim_id": "verified_incumbent_under_current_contract",
+      "summary": "PSMS-v2 is the strongest verified line under the accepted GitHub/PyBaMM contract."
+    },
+    {
+      "claim_id": "stable_local_robustness_result",
+      "summary": "The result is stable enough for technical external sharing because it survives the search-time bundle, one held-out bundle, and a focused negative stability check."
+    },
+    {
+      "claim_id": "package_level_method_gain",
+      "summary": "The supported method story is package-level rather than a single-component causal story."
+    }
+  ],
+  "out_of_scope_claims": [
+    "all-task superiority across every possible fast-charge task",
+    "universal optimality across other chemistries or external simulators",
+    "a uniquely decisive single-module explanation"
+  ],
+  "recommended_reopen_paths": [
+    "Expand the held-out matrix with more temperature and degradation combinations under the same four-metric contract.",
+    "Add one genuinely external transfer surface instead of repeating the same local search loop.",
+    "Reopen component-attribution work only if a stronger single-module story becomes necessary."
+  ]
+}

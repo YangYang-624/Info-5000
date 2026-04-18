@@ -1,0 +1,125 @@
+{
+  "generated_at": "2026-04-17T12:47:11.122285+00:00",
+  "environment": {
+    "python": "3.10.19",
+    "torch": "2.6.0+cu124",
+    "cuda": "12.4",
+    "cuda_available": true
+  },
+  "protocol_count": 5,
+  "protocols": [
+    {
+      "name": "CCCV_2.0C",
+      "type": "CCCV",
+      "description": "Constant current at 2.0C until 4.2V, then constant voltage",
+      "c_rates": [
+        2.0
+      ],
+      "step_durations": [
+        30.0
+      ],
+      "Q30": 0.07163606921311345,
+      "plating_loss": 0.47588502672759014,
+      "sei_growth": 63.130851008862926,
+      "sei_li_loss": 0.002212811740140009,
+      "total_lli": 0.019968795532639617,
+      "success": true
+    },
+    {
+      "name": "LinearTaper_3.0C-1.0C",
+      "type": "LinearTaper",
+      "description": "Linear current taper from 3.0C to 1.0C over 6 steps",
+      "c_rates": [
+        3.0,
+        2.6,
+        2.2,
+        1.7999999999999998,
+        1.4,
+        1.0
+      ],
+      "step_durations": [
+        5.0,
+        5.0,
+        5.0,
+        5.0,
+        5.0,
+        5.0
+      ],
+      "Q30": 0.05346444871088208,
+      "plating_loss": 0.4117025163390532,
+      "sei_growth": 54.26039671508839,
+      "sei_li_loss": 0.0019018917210373981,
+      "total_lli": 0.01726312982872866,
+      "success": true
+    },
+    {
+      "name": "LinearTaper_3.0C-0.5C",
+      "type": "LinearTaper",
+      "description": "Linear current taper from 3.0C to 0.5C over 6 steps",
+      "c_rates": [
+        3.0,
+        2.5,
+        2.0,
+        1.5,
+        1.0,
+        0.5
+      ],
+      "step_durations": [
+        5.0,
+        5.0,
+        5.0,
+        5.0,
+        5.0,
+        5.0
+      ],
+      "Q30": 0.0684906919777391,
+      "plating_loss": 0.48061019961321005,
+      "sei_growth": 62.20765880061668,
+      "sei_li_loss": 0.0021804527504516503,
+      "total_lli": 0.020112739827277647,
+      "success": true
+    },
+    {
+      "name": "BO_3step_aggressive",
+      "type": "BO_Optimal",
+      "description": "Best 3-step protocol from single-objective BO (β=0.008): Charge-Rest-Charge",
+      "c_rates": [
+        3.0,
+        0.0,
+        3.0
+      ],
+      "step_durations": [
+        10.0,
+        10.0,
+        10.0
+      ],
+      "Q30": 0.08989501345816822,
+      "plating_loss": 0.3221755155634952,
+      "sei_growth": 58.362167723656874,
+      "sei_li_loss": 0.002045663694614185,
+      "total_lli": 0.014066515184779317,
+      "success": true
+    },
+    {
+      "name": "BO_3step_conservative",
+      "type": "BO_Optimal",
+      "description": "Best 3-step protocol from single-objective BO (β=0.015): Low degradation focus",
+      "c_rates": [
+        0.91,
+        0.0,
+        0.54
+      ],
+      "step_durations": [
+        10.0,
+        10.0,
+        10.0
+      ],
+      "Q30": 0.030208333333333327,
+      "plating_loss": 0.0014056407128248296,
+      "sei_growth": 59.76628057955572,
+      "sei_li_loss": 0.0020948795274813563,
+      "total_lli": 0.002147326089808862,
+      "success": true
+    }
+  ]
+}

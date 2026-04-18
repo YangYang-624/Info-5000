@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "section_id": "discussion",
+  "title": "Discussion and Limitations",
+  "rows": [
+    {
+      "item_id": "psms-ablation-sequence-prior",
+      "title": "Ablate sequence-feasibility prior",
+      "kind": "analysis_slice",
+      "paper_role": "appendix",
+      "status": "completed",
+      "claim_links": [
+        "claim-local-boundary"
+      ],
+      "setup_note": "Reuse the existing ua_psms_v1 robust search output that disables only the sequence-feasibility prior while keeping the accepted four-metric contract, ranking rule, followup_v1 bundle, and PyBaMM evaluation path unchanged.",
+      "metric_summary": null,
+      "result_summary": "The no-sequence-prior rerun still recovered the PSMS winner family with full feasibility. The top candidate `UA5_PSMS_3.00C_rest10m_4.30C_e4.50_v4p18_h3.35_1p5m_noprior` achieved success_rate=1.0, guard_pass_rate=1.0, mean_score=0.04138956386002244, worst_score=0.0, and robust_utility=0.023824166035076547 versus the EVTBO anchor. This rules out the sequence prior as a standalone explanation for the gain and supports keeping the paper claim at the package level.",
+      "impact_summary": "rules out the sequence prior as a standalone explanation for the gain and supports the package-level PSMS claim",
+      "source_paths": [
+        ".ds/worktrees/analysis-analysis-dcc6d3b2-ablate-sequence-prior/experiments/analysis/analysis-dcc6d3b2/ablate-sequence-prior/RESULT.md",
+        ".ds/worktrees/analysis-analysis-dcc6d3b2-ablate-sequence-prior/experiments/analysis/analysis-dcc6d3b2/ablate-sequence-prior/RESULT.json",
+        ".ds/worktrees/idea-idea-8d0629d2/experiments/analysis-results/analysis-dcc6d3b2/ablate-sequence-prior.md",
+        "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/idea-idea-8d0629d2/experiments/main/ua_psms_v1/results/ua_psms_ablate_seqprior_search_summary.json",
+        "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/idea-idea-8d0629d2/experiments/main/ua_psms_v1/results/ua_psms_ablate_seqprior_search_ranked_candidates.csv",
+        "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/idea-idea-8d0629d2/experiments/main/ua_psms_v1/results/ua_psms_ablate_seqprior_search_scenario_metrics.csv",
+        "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/paper-run-psms-v2-main-v1/artifacts/reports/report-443fef3f.json"
+      ],
+      "updated_at": "2026-04-16T13:05:36+00:00"
+    },
+    {
+      "item_id": "psms-ablation-entry-activation",
+      "title": "Ablate entry activation",
+      "kind": "analysis_slice",
+      "paper_role": "appendix",
+      "status": "completed",
+      "claim_links": [
+        "claim-local-boundary"
+      ],
+      "setup_note": "Ran one full comparable no-entry rerun with the existing ua_psms_v1 robust search runner, disabling only entry activation while keeping the accepted four-metric contract, ranking rule, followup_v1 bundle, anchor protocol, and PyBaMM evaluation path unchanged.",
+      "metric_summary": "success_rate=1; guard_pass_rate=1; worst_score=0; robust_utility=0; mean_delta_Q30=0; mean_delta_plating_loss=0",
+      "result_summary": "The full no-entry rerun did not materially weaken the line. The robust top remained the EVTBO anchor `UA4_EVTBO_3.00C_rest10m_4.30C_v4p16`, and the first no-entry PSMS candidate `UA5_PSMS_3.00C_rest10m_4.30C_e4.30_v4p16_h3.35_0m_noentry` matched the anchor exactly across all five scenarios with success_rate=1.0, guard_pass_rate=1.0, mean_score=0.0, worst_score=0.0, robust_utility=0.0, and zero mean/worst deltas on Q30, plating_loss, sei_growth, and total_lli. This rules out entry activation as a standalone explanation for the gain and supports keeping the paper claim at the package level.",
+      "impact_summary": "rules out entry activation as a standalone explanation for the gain and supports the package-level PSMS claim",
+      "source_paths": [
+        ".ds/worktrees/analysis-analysis-dcc6d3b2-ablate-entry-activation/experiments/analysis/analysis-dcc6d3b2/ablate-entry-activation/RESULT.md",
+        ".ds/worktrees/analysis-analysis-dcc6d3b2-ablate-entry-activation/experiments/analysis/analysis-dcc6d3b2/ablate-entry-activation/RESULT.json",
+        ".ds/worktrees/idea-idea-8d0629d2/experiments/analysis-results/analysis-dcc6d3b2/ablate-entry-activation.md",
+        "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/analysis-analysis-dcc6d3b2-ablate-entry-activation/experiments/main/ua_psms_v1/results/ua_psms_ablate_entryactivation_search_summary.json",
+        "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/analysis-analysis-dcc6d3b2-ablate-entry-activation/experiments/main/ua_psms_v1/results/ua_psms_ablate_entryactivation_search_ranked_candidates.csv",
+        "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/analysis-analysis-dcc6d3b2-ablate-entry-activation/experiments/main/ua_psms_v1/results/ua_psms_ablate_entryactivation_search_scenario_metrics.csv"
+      ],
+      "updated_at": "2026-04-16T13:24:25+00:00"
+    }
+  ],
+  "updated_at": "2026-04-17T04:24:54+00:00"
+}

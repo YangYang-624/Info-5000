@@ -1,0 +1,145 @@
+{
+  "schema_version": 1,
+  "kind": "baseline_metric_contract",
+  "baseline_id": "ax-pybamm-fastcharge",
+  "variant_id": "bo_3step_aggressive",
+  "source_mode": "local",
+  "baseline_root_rel_path": "baselines/local/ax-pybamm-fastcharge",
+  "written_at": "2026-04-14T18:12:52+00:00",
+  "metric_contract": {
+    "evaluation_protocol": {
+      "family_id": "baseline_protocols_10to90",
+      "default_protocol": "BO_3step_aggressive",
+      "comparison_surface_ref": "results/standard_baselines.json",
+      "secondary_references": [
+        "CCCV_2.0C",
+        "LinearTaper_3.0C-1.0C",
+        "LinearTaper_3.0C-0.5C",
+        "BO_3step_conservative"
+      ],
+      "note": "The full five-protocol surface remains part of the accepted baseline evidence even though one default active protocol is chosen for downstream comparison."
+    },
+    "contract_id": "ax-pybamm-fastcharge",
+    "primary_metric_id": "Q30",
+    "metrics": [
+      {
+        "metric_id": "Q30",
+        "label": "30-minute charged capacity",
+        "unit": "Ah",
+        "direction": "maximize",
+        "required": true,
+        "description": "Charge throughput delivered within the 30-minute fast-charge window from 10% to 90% SOC.",
+        "derivation": "Taken from the Q30 field of the default active baseline protocol BO_3step_aggressive in results/standard_baselines.json after rerunning the five-protocol baseline family in lumo.",
+        "source_ref": "baselines/local/ax-pybamm-fastcharge/results/standard_baselines.json",
+        "decimals": null,
+        "chart_group": "default"
+      },
+      {
+        "metric_id": "plating_loss",
+        "label": "Lithium plating loss",
+        "unit": "Ah",
+        "direction": "minimize",
+        "required": true,
+        "description": "Capacity loss attributed to lithium plating under the accepted default active baseline protocol.",
+        "derivation": "Taken from the plating_loss field of BO_3step_aggressive in results/standard_baselines.json after the trusted lumo rerun.",
+        "source_ref": "baselines/local/ax-pybamm-fastcharge/results/standard_baselines.json",
+        "decimals": null,
+        "chart_group": "default"
+      },
+      {
+        "metric_id": "sei_growth",
+        "label": "SEI thickness growth",
+        "unit": "nm",
+        "direction": "minimize",
+        "required": true,
+        "description": "SEI thickness growth accumulated during the accepted default active baseline protocol.",
+        "derivation": "Taken from the sei_growth field of BO_3step_aggressive in results/standard_baselines.json after the trusted lumo rerun.",
+        "source_ref": "baselines/local/ax-pybamm-fastcharge/results/standard_baselines.json",
+        "decimals": null,
+        "chart_group": "default"
+      },
+      {
+        "metric_id": "total_lli",
+        "label": "Total lithium inventory loss",
+        "unit": "mol",
+        "direction": "minimize",
+        "required": true,
+        "description": "Total lithium inventory loss during the accepted default active baseline protocol.",
+        "derivation": "Taken from the total_lli field of BO_3step_aggressive in results/standard_baselines.json after the trusted lumo rerun.",
+        "source_ref": "baselines/local/ax-pybamm-fastcharge/results/standard_baselines.json",
+        "decimals": null,
+        "chart_group": "default"
+      }
+    ]
+  },
+  "primary_metric": {
+    "metric_id": "Q30",
+    "direction": "maximize",
+    "label": "30-minute charged capacity",
+    "value": 0.08989501345816822
+  },
+  "metrics_summary": {
+    "Q30": 0.08989501345816822,
+    "plating_loss": 0.3221755155634952,
+    "sei_growth": 58.362167723656874,
+    "total_lli": 0.014066515184779317
+  },
+  "metric_details": [
+    {
+      "metric_id": "Q30",
+      "label": "30-minute charged capacity",
+      "unit": "Ah",
+      "direction": "maximize",
+      "required": true,
+      "description": "Charge throughput delivered within the 30-minute fast-charge window from 10% to 90% SOC.",
+      "derivation": "Taken from the Q30 field of the default active baseline protocol BO_3step_aggressive in results/standard_baselines.json after rerunning the five-protocol baseline family in lumo.",
+      "source_ref": "baselines/local/ax-pybamm-fastcharge/results/standard_baselines.json",
+      "decimals": null,
+      "chart_group": "default",
+      "origin_path": null,
+      "value": 0.08989501345816822
+    },
+    {
+      "metric_id": "plating_loss",
+      "label": "Lithium plating loss",
+      "unit": "Ah",
+      "direction": "minimize",
+      "required": true,
+      "description": "Capacity loss attributed to lithium plating under the accepted default active baseline protocol.",
+      "derivation": "Taken from the plating_loss field of BO_3step_aggressive in results/standard_baselines.json after the trusted lumo rerun.",
+      "source_ref": "baselines/local/ax-pybamm-fastcharge/results/standard_baselines.json",
+      "decimals": null,
+      "chart_group": "default",
+      "origin_path": null,
+      "value": 0.3221755155634952
+    },
+    {
+      "metric_id": "sei_growth",
+      "label": "SEI thickness growth",
+      "unit": "nm",
+      "direction": "minimize",
+      "required": true,
+      "description": "SEI thickness growth accumulated during the accepted default active baseline protocol.",
+      "derivation": "Taken from the sei_growth field of BO_3step_aggressive in results/standard_baselines.json after the trusted lumo rerun.",
+      "source_ref": "baselines/local/ax-pybamm-fastcharge/results/standard_baselines.json",
+      "decimals": null,
+      "chart_group": "default",
+      "origin_path": null,
+      "value": 58.362167723656874
+    },
+    {
+      "metric_id": "total_lli",
+      "label": "Total lithium inventory loss",
+      "unit": "mol",
+      "direction": "minimize",
+      "required": true,
+      "description": "Total lithium inventory loss during the accepted default active baseline protocol.",
+      "derivation": "Taken from the total_lli field of BO_3step_aggressive in results/standard_baselines.json after the trusted lumo rerun.",
+      "source_ref": "baselines/local/ax-pybamm-fastcharge/results/standard_baselines.json",
+      "decimals": null,
+      "chart_group": "default",
+      "origin_path": null,
+      "value": 0.014066515184779317
+    }
+  ]
+}

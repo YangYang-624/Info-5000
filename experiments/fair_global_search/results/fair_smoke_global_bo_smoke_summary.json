@@ -1,0 +1,836 @@
+{
+  "generated_at": "2026-04-18T14:07:18.923806+00:00",
+  "mode": "smoke",
+  "method": "global_bo",
+  "seed": 20260418,
+  "quest_root": "/data/yangyang/class/info5000/project",
+  "metric_contract_path": "/data/yangyang/class/info5000/project/baselines/local/ax-pybamm-fastcharge/json/metric_contract.json",
+  "scenario_set": "followup_v1",
+  "scenarios": [
+    {
+      "scenario_id": "nominal",
+      "description": "No parameter perturbation",
+      "updates": {}
+    },
+    {
+      "scenario_id": "warm_cell",
+      "description": "Increase ambient and initial temperature by 5 K",
+      "updates": {
+        "Ambient temperature [K]": {
+          "shift": 5.0
+        },
+        "Initial temperature [K]": {
+          "shift": 5.0
+        }
+      }
+    }
+  ],
+  "space": {
+    "shared_search_dimensions": [
+      "first_rate",
+      "rest_minutes",
+      "third_rate",
+      "entry_rate",
+      "trigger_voltage",
+      "hold_rate",
+      "hold_minutes"
+    ],
+    "shared_ablation": {
+      "active": true,
+      "disable_sequence_prior": false,
+      "disable_entry_activation": false,
+      "disable_stage_mask": false,
+      "label": "stage-mask",
+      "suffix": "stagemask"
+    },
+    "from_scratch": true,
+    "warm_start": false,
+    "comparison_baseline_head": "BO_3step_aggressive"
+  },
+  "baseline_reference": {
+    "baseline_id": "ax-pybamm-fastcharge",
+    "variant_id": "bo_3step_aggressive",
+    "comparison_baseline_head": "BO_3step_aggressive",
+    "comparison_baseline_metrics": {
+      "Q30": 0.08989501345816822,
+      "plating_loss": 0.3221755155634952,
+      "sei_growth": 58.362167723656874,
+      "total_lli": 0.014066515184779317,
+      "success": true
+    },
+    "baseline_nominal_metrics": {
+      "Q30": 0.08989501345816822,
+      "plating_loss": 0.3221755155634952,
+      "sei_growth": 58.362167723656874,
+      "total_lli": 0.014066515184779317,
+      "success": true
+    }
+  },
+  "selection_policy": {
+    "budget": 4,
+    "init_points": 2,
+    "candidate_pool_size": 64,
+    "q30_drop_tolerance": 0.05,
+    "degradation_drop_tolerance": 0.1,
+    "risk_aversion": 0.35,
+    "acquisition_beta": 0.35,
+    "feasibility_floor": 0.85,
+    "feasibility_weight": 0.4,
+    "uses_sequence_prior": false
+  },
+  "search_controller": {
+    "candidate_budget": 4,
+    "evaluated_adaptive_candidates": 4,
+    "best_protocol_name": "UA5_PSMS_2.90C_rest11m_4.10C_e4.50_v4p14_h2.65_1p5m_stagemask",
+    "best_search_objective": 0.3881330868940988,
+    "history": [
+      {
+        "name": "UA5_PSMS_3.05C_rest8m_4.25C_e4.25_v4p14_h3.35_0m_stagemask",
+        "point": [
+          3.05,
+          8.0,
+          4.25,
+          4.25,
+          4.14,
+          3.35,
+          0.0
+        ],
+        "source": "init",
+        "search_objective": -1.5454623039393953,
+        "aggregate": {
+          "success_rate": 1.0,
+          "guard_pass_rate": 0.0,
+          "mean_score": 0.03743653599344239,
+          "worst_score": -0.09038581317433425,
+          "score_std": 0.12782234916777663,
+          "robust_utility": -0.007301286215279423,
+          "mean_metric_deltas": {
+            "Q30": -0.3112912886106446,
+            "plating_loss": 0.18769095655984067,
+            "sei_growth": 0.09959064398642653,
+            "total_lli": 0.17375583203814698
+          },
+          "worst_metric_deltas": {
+            "Q30": -0.5485562602807228,
+            "plating_loss": 0.003772280392886448,
+            "sei_growth": 0.04201989670059265,
+            "total_lli": 0.026079335918238945
+          }
+        },
+        "improved_best": true,
+        "best_objective_after": -1.5454623039393953,
+        "best_name_after": "UA5_PSMS_3.05C_rest8m_4.25C_e4.25_v4p14_h3.35_0m_stagemask"
+      },
+      {
+        "name": "UA5_PSMS_2.90C_rest11m_4.10C_e4.50_v4p14_h2.65_1p5m_stagemask",
+        "point": [
+          2.9,
+          11.0,
+          4.1,
+          4.5,
+          4.14,
+          2.65,
+          1.5
+        ],
+        "source": "init",
+        "search_objective": 0.3881330868940988,
+        "aggregate": {
+          "success_rate": 1.0,
+          "guard_pass_rate": 1.0,
+          "mean_score": 0.32602847541493185,
+          "worst_score": 0.28869939159212304,
+          "score_std": 0.037329083822808834,
+          "robust_utility": 0.3129632960769488,
+          "mean_metric_deltas": {
+            "Q30": 0.0598988583823851,
+            "plating_loss": 0.6614132564484305,
+            "sei_growth": 0.017509866851114435,
+            "total_lli": 0.5652919199777974
+          },
+          "worst_metric_deltas": {
+            "Q30": 0.023165436777137973,
+            "plating_loss": 0.5665067248679153,
+            "sei_growth": 0.0065806998684173465,
+            "total_lli": 0.4850778616445272
+          }
+        },
+        "improved_best": true,
+        "best_objective_after": 0.3881330868940988,
+        "best_name_after": "UA5_PSMS_2.90C_rest11m_4.10C_e4.50_v4p14_h2.65_1p5m_stagemask"
+      },
+      {
+        "name": "UA5_PSMS_3.00C_rest10m_4.20C_e4.20_v4p14_h2.55_1m_stagemask",
+        "point": [
+          3.0,
+          10.0,
+          4.2,
+          4.2,
+          4.14,
+          2.55,
+          1.0
+        ],
+        "source": "global_bo",
+        "search_objective": 0.1050741184063448,
+        "aggregate": {
+          "success_rate": 1.0,
+          "guard_pass_rate": 1.0,
+          "mean_score": 0.14345267371410317,
+          "worst_score": 0.017696524531274297,
+          "score_std": 0.12575614918282887,
+          "robust_utility": 0.09943802150011306,
+          "mean_metric_deltas": {
+            "Q30": 0.0242393154682633,
+            "plating_loss": 0.28374443480294687,
+            "sei_growth": 0.021977498804867816,
+            "total_lli": 0.24384944578033474
+          },
+          "worst_metric_deltas": {
+            "Q30": -0.0046537841964690374,
+            "plating_loss": 0.0010495131112825534,
+            "sei_growth": 0.013713028397050865,
+            "total_lli": 0.0028911414837681356
+          }
+        },
+        "improved_best": false,
+        "best_objective_after": 0.3881330868940988,
+        "best_name_after": "UA5_PSMS_2.90C_rest11m_4.10C_e4.50_v4p14_h2.65_1p5m_stagemask"
+      },
+      {
+        "name": "UA5_PSMS_3.10C_rest11m_4.20C_e4.20_v4p15_h2.55_1m_stagemask",
+        "point": [
+          3.1,
+          11.0,
+          4.2,
+          4.2,
+          4.15,
+          2.55,
+          1.0
+        ],
+        "source": "global_bo",
+        "search_objective": -0.74733106452616,
+        "aggregate": {
+          "success_rate": 1.0,
+          "guard_pass_rate": 0.5,
+          "mean_score": 0.09888651426738052,
+          "worst_score": -0.08120673716996052,
+          "score_std": 0.18009325143734103,
+          "robust_utility": 0.03585387626431116,
+          "mean_metric_deltas": {
+            "Q30": -0.25766512995962265,
+            "plating_loss": 0.29372198549729267,
+            "sei_growth": 0.09629840034285306,
+            "total_lli": 0.26319080118899907
+          },
+          "worst_metric_deltas": {
+            "Q30": -0.5615693398998838,
+            "plating_loss": 0.025672255524860275,
+            "sei_growth": 0.02747829513520604,
+            "total_lli": 0.04595163014468135
+          }
+        },
+        "improved_best": false,
+        "best_objective_after": 0.3881330868940988,
+        "best_name_after": "UA5_PSMS_2.90C_rest11m_4.10C_e4.50_v4p14_h2.65_1p5m_stagemask"
+      }
+    ]
+  },
+  "robust_top_name": "UA5_PSMS_2.90C_rest11m_4.10C_e4.50_v4p14_h2.65_1p5m_stagemask",
+  "nominal_top_name": "BO_3step_conservative",
+  "ranking_changed_vs_nominal": true,
+  "candidates_evaluated": 6,
+  "adaptive_candidates_evaluated": 4,
+  "baseline_candidates_evaluated": 2,
+  "ranked_candidates": [
+    {
+      "name": "UA5_PSMS_2.90C_rest11m_4.10C_e4.50_v4p14_h2.65_1p5m_stagemask",
+      "type": "UA5_PSMS_Ablation_Candidate",
+      "description": "Ablation (stage-mask) of the physics-prior masked multi-stage candidate around GLOBAL_ROOT with 2.90C / rest 11m / 4.50C entry + 2m guard / 4.10C monitor until trigger 4.14V / 2.65C hold for 1.5m / 2.10C tail",
+      "c_rates": [
+        2.9,
+        0.0,
+        4.5,
+        4.1,
+        2.65,
+        2.1
+      ],
+      "step_durations": [
+        9.5,
+        11.0,
+        2.0,
+        3.0,
+        1.5,
+        3.0
+      ],
+      "aggregate": {
+        "success_rate": 1.0,
+        "guard_pass_rate": 1.0,
+        "mean_score": 0.32602847541493185,
+        "worst_score": 0.28869939159212304,
+        "score_std": 0.037329083822808834,
+        "robust_utility": 0.3129632960769488,
+        "mean_metric_deltas": {
+          "Q30": 0.0598988583823851,
+          "plating_loss": 0.6614132564484305,
+          "sei_growth": 0.017509866851114435,
+          "total_lli": 0.5652919199777974
+        },
+        "worst_metric_deltas": {
+          "Q30": 0.023165436777137973,
+          "plating_loss": 0.5665067248679153,
+          "sei_growth": 0.0065806998684173465,
+          "total_lli": 0.4850778616445272
+        }
+      },
+      "scenario_summaries": [
+        {
+          "scenario_id": "nominal",
+          "score": 0.28869939159212304,
+          "guard_ok": true,
+          "metric_deltas": {
+            "Q30": 0.09663227998763223,
+            "plating_loss": 0.5665067248679153,
+            "sei_growth": 0.0065806998684173465,
+            "total_lli": 0.4850778616445272
+          },
+          "candidate_metrics": {
+            "Q30": 0.0985817735681499,
+            "plating_loss": 0.13966091940898745,
+            "sei_growth": 57.978103814197254,
+            "total_lli": 0.007243160078156294,
+            "success": true
+          },
+          "anchor_metrics": {
+            "Q30": 0.08989501345816822,
+            "plating_loss": 0.3221755155634952,
+            "sei_growth": 58.362167723656874,
+            "total_lli": 0.014066515184779317,
+            "success": true
+          }
+        },
+        {
+          "scenario_id": "warm_cell",
+          "score": 0.3633575592377407,
+          "guard_ok": true,
+          "metric_deltas": {
+            "Q30": 0.023165436777137973,
+            "plating_loss": 0.7563197880289458,
+            "sei_growth": 0.028439033833811522,
+            "total_lli": 0.6455059783110675
+          },
+          "candidate_metrics": {
+            "Q30": 0.10013487801775575,
+            "plating_loss": 0.09171865556457429,
+            "sei_growth": 69.90511496596098,
+            "total_lli": 0.005872418327386577,
+            "success": true
+          },
+          "anchor_metrics": {
+            "Q30": 0.0978677293216334,
+            "plating_loss": 0.3763894278599414,
+            "sei_growth": 71.95134160423186,
+            "total_lli": 0.016565634307197447,
+            "success": true
+          }
+        }
+      ],
+      "sort_key": [
+        1.0,
+        1.0,
+        0.28869939159212304,
+        0.3129632960769488,
+        0.0598988583823851
+      ]
+    },
+    {
+      "name": "UA5_PSMS_3.00C_rest10m_4.20C_e4.20_v4p14_h2.55_1m_stagemask",
+      "type": "UA5_PSMS_Ablation_Candidate",
+      "description": "Ablation (stage-mask) of the physics-prior masked multi-stage candidate around GLOBAL_ROOT with 3.00C / rest 10m / 4.20C entry + 2m guard / 4.20C monitor until trigger 4.14V / 2.55C hold for 1.0m / 2.00C tail",
+      "c_rates": [
+        3.0,
+        0.0,
+        4.2,
+        4.2,
+        2.55,
+        2.0
+      ],
+      "step_durations": [
+        10.0,
+        10.0,
+        2.0,
+        4.0,
+        1.0,
+        3.0
+      ],
+      "aggregate": {
+        "success_rate": 1.0,
+        "guard_pass_rate": 1.0,
+        "mean_score": 0.14345267371410317,
+        "worst_score": 0.017696524531274297,
+        "score_std": 0.12575614918282887,
+        "robust_utility": 0.09943802150011306,
+        "mean_metric_deltas": {
+          "Q30": 0.0242393154682633,
+          "plating_loss": 0.28374443480294687,
+          "sei_growth": 0.021977498804867816,
+          "total_lli": 0.24384944578033474
+        },
+        "worst_metric_deltas": {
+          "Q30": -0.0046537841964690374,
+          "plating_loss": 0.0010495131112825534,
+          "sei_growth": 0.013713028397050865,
+          "total_lli": 0.0028911414837681356
+        }
+      },
+      "scenario_summaries": [
+        {
+          "scenario_id": "nominal",
+          "score": 0.017696524531274297,
+          "guard_ok": true,
+          "metric_deltas": {
+            "Q30": 0.05313241513299564,
+            "plating_loss": 0.0010495131112825534,
+            "sei_growth": 0.013713028397050865,
+            "total_lli": 0.0028911414837681356
+          },
+          "candidate_metrics": {
+            "Q30": 0.09467135263161384,
+            "plating_loss": 0.3218373881357771,
+            "sei_growth": 57.56184566034892,
+            "total_lli": 0.014025846899196547,
+            "success": true
+          },
+          "anchor_metrics": {
+            "Q30": 0.08989501345816822,
+            "plating_loss": 0.3221755155634952,
+            "sei_growth": 58.362167723656874,
+            "total_lli": 0.014066515184779317,
+            "success": true
+          }
+        },
+        {
+          "scenario_id": "warm_cell",
+          "score": 0.26920882289693204,
+          "guard_ok": true,
+          "metric_deltas": {
+            "Q30": -0.0046537841964690374,
+            "plating_loss": 0.5664393564946112,
+            "sei_growth": 0.030241969212684766,
+            "total_lli": 0.48480775007690136
+          },
+          "candidate_metrics": {
+            "Q30": 0.09741227402957207,
+            "plating_loss": 0.16318764255158133,
+            "sei_growth": 69.77539134662531,
+            "total_lli": 0.008534486410128325,
+            "success": true
+          },
+          "anchor_metrics": {
+            "Q30": 0.0978677293216334,
+            "plating_loss": 0.3763894278599414,
+            "sei_growth": 71.95134160423186,
+            "total_lli": 0.016565634307197447,
+            "success": true
+          }
+        }
+      ],
+      "sort_key": [
+        1.0,
+        1.0,
+        0.017696524531274297,
+        0.09943802150011306,
+        0.0242393154682633
+      ]
+    },
+    {
+      "name": "BO_3step_aggressive",
+      "type": "BO_Optimal",
+      "description": "Best 3-step protocol from single-objective BO (\u03b2=0.008): Charge-Rest-Charge",
+      "c_rates": [
+        3.0,
+        0.0,
+        3.0
+      ],
+      "step_durations": [
+        10.0,
+        10.0,
+        10.0
+      ],
+      "aggregate": {
+        "success_rate": 1.0,
+        "guard_pass_rate": 1.0,
+        "mean_score": 0.0,
+        "worst_score": 0.0,
+        "score_std": 0.0,
+        "robust_utility": 0.0,
+        "mean_metric_deltas": {
+          "Q30": 0.0,
+          "plating_loss": 0.0,
+          "sei_growth": 0.0,
+          "total_lli": 0.0
+        },
+        "worst_metric_deltas": {
+          "Q30": 0.0,
+          "plating_loss": 0.0,
+          "sei_growth": 0.0,
+          "total_lli": 0.0
+        }
+      },
+      "scenario_summaries": [
+        {
+          "scenario_id": "nominal",
+          "score": 0.0,
+          "guard_ok": true,
+          "metric_deltas": {
+            "Q30": 0.0,
+            "plating_loss": 0.0,
+            "sei_growth": 0.0,
+            "total_lli": 0.0
+          },
+          "candidate_metrics": {
+            "Q30": 0.08989501345816822,
+            "plating_loss": 0.3221755155634952,
+            "sei_growth": 58.362167723656874,
+            "total_lli": 0.014066515184779317,
+            "success": true
+          },
+          "anchor_metrics": {
+            "Q30": 0.08989501345816822,
+            "plating_loss": 0.3221755155634952,
+            "sei_growth": 58.362167723656874,
+            "total_lli": 0.014066515184779317,
+            "success": true
+          }
+        },
+        {
+          "scenario_id": "warm_cell",
+          "score": 0.0,
+          "guard_ok": true,
+          "metric_deltas": {
+            "Q30": 0.0,
+            "plating_loss": 0.0,
+            "sei_growth": 0.0,
+            "total_lli": 0.0
+          },
+          "candidate_metrics": {
+            "Q30": 0.0978677293216334,
+            "plating_loss": 0.3763894278599414,
+            "sei_growth": 71.95134160423186,
+            "total_lli": 0.016565634307197447,
+            "success": true
+          },
+          "anchor_metrics": {
+            "Q30": 0.0978677293216334,
+            "plating_loss": 0.3763894278599414,
+            "sei_growth": 71.95134160423186,
+            "total_lli": 0.016565634307197447,
+            "success": true
+          }
+        }
+      ],
+      "sort_key": [
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "UA5_PSMS_3.10C_rest11m_4.20C_e4.20_v4p15_h2.55_1m_stagemask",
+      "type": "UA5_PSMS_Ablation_Candidate",
+      "description": "Ablation (stage-mask) of the physics-prior masked multi-stage candidate around GLOBAL_ROOT with 3.10C / rest 11m / 4.20C entry + 2m guard / 4.20C monitor until trigger 4.15V / 2.55C hold for 1.0m / 2.00C tail",
+      "c_rates": [
+        3.1,
+        0.0,
+        4.2,
+        4.2,
+        2.55,
+        2.0
+      ],
+      "step_durations": [
+        9.5,
+        11.0,
+        2.0,
+        3.5,
+        1.0,
+        3.0
+      ],
+      "aggregate": {
+        "success_rate": 1.0,
+        "guard_pass_rate": 0.5,
+        "mean_score": 0.09888651426738052,
+        "worst_score": -0.08120673716996052,
+        "score_std": 0.18009325143734103,
+        "robust_utility": 0.03585387626431116,
+        "mean_metric_deltas": {
+          "Q30": -0.25766512995962265,
+          "plating_loss": 0.29372198549729267,
+          "sei_growth": 0.09629840034285306,
+          "total_lli": 0.26319080118899907
+        },
+        "worst_metric_deltas": {
+          "Q30": -0.5615693398998838,
+          "plating_loss": 0.025672255524860275,
+          "sei_growth": 0.02747829513520604,
+          "total_lli": 0.04595163014468135
+        }
+      },
+      "scenario_summaries": [
+        {
+          "scenario_id": "nominal",
+          "score": -0.08120673716996052,
+          "guard_ok": false,
+          "metric_deltas": {
+            "Q30": -0.5615693398998838,
+            "plating_loss": 0.025672255524860275,
+            "sei_growth": 0.1651185055505001,
+            "total_lli": 0.04595163014468135
+          },
+          "candidate_metrics": {
+            "Q30": 0.03941273009017353,
+            "plating_loss": 0.31390454340409557,
+            "sei_growth": 48.72549380843902,
+            "total_lli": 0.013420135881583794,
+            "success": true
+          },
+          "anchor_metrics": {
+            "Q30": 0.08989501345816822,
+            "plating_loss": 0.3221755155634952,
+            "sei_growth": 58.362167723656874,
+            "total_lli": 0.014066515184779317,
+            "success": true
+          }
+        },
+        {
+          "scenario_id": "warm_cell",
+          "score": 0.27897976570472155,
+          "guard_ok": true,
+          "metric_deltas": {
+            "Q30": 0.04623907998063848,
+            "plating_loss": 0.561771715469725,
+            "sei_growth": 0.02747829513520604,
+            "total_lli": 0.48042997223331674
+          },
+          "candidate_metrics": {
+            "Q30": 0.10239304308525989,
+            "plating_loss": 0.1649444932863938,
+            "sei_growth": 69.97424140425674,
+            "total_lli": 0.008607007076963298,
+            "success": true
+          },
+          "anchor_metrics": {
+            "Q30": 0.0978677293216334,
+            "plating_loss": 0.3763894278599414,
+            "sei_growth": 71.95134160423186,
+            "total_lli": 0.016565634307197447,
+            "success": true
+          }
+        }
+      ],
+      "sort_key": [
+        1.0,
+        0.5,
+        -0.08120673716996052,
+        0.03585387626431116,
+        -0.25766512995962265
+      ]
+    },
+    {
+      "name": "BO_3step_conservative",
+      "type": "BO_Optimal",
+      "description": "Best 3-step protocol from single-objective BO (\u03b2=0.015): Low degradation focus",
+      "c_rates": [
+        0.91,
+        0.0,
+        0.54
+      ],
+      "step_durations": [
+        10.0,
+        10.0,
+        10.0
+      ],
+      "aggregate": {
+        "success_rate": 1.0,
+        "guard_pass_rate": 0.0,
+        "mean_score": 0.2902439220363069,
+        "worst_score": 0.2887408519542715,
+        "score_std": 0.0015030700820354015,
+        "robust_utility": 0.2897178475075945,
+        "mean_metric_deltas": {
+          "Q30": -0.6776474753389414,
+          "plating_loss": 0.9964517416219025,
+          "sei_growth": -0.005253074935881365,
+          "total_lli": 0.8474244967981479
+        },
+        "worst_metric_deltas": {
+          "Q30": -0.6913350954117226,
+          "plating_loss": 0.9956370343340141,
+          "sei_growth": -0.024058613836060328,
+          "total_lli": 0.8473448425852924
+        }
+      },
+      "scenario_summaries": [
+        {
+          "scenario_id": "nominal",
+          "score": 0.2887408519542715,
+          "guard_ok": false,
+          "metric_deltas": {
+            "Q30": -0.6639598552661602,
+            "plating_loss": 0.9956370343340141,
+            "sei_growth": -0.024058613836060328,
+            "total_lli": 0.8473448425852924
+          },
+          "candidate_metrics": {
+            "Q30": 0.030208333333333327,
+            "plating_loss": 0.0014056407128248296,
+            "sei_growth": 59.76628057955572,
+            "total_lli": 0.002147326089808862,
+            "success": true
+          },
+          "anchor_metrics": {
+            "Q30": 0.08989501345816822,
+            "plating_loss": 0.3221755155634952,
+            "sei_growth": 58.362167723656874,
+            "total_lli": 0.014066515184779317,
+            "success": true
+          }
+        },
+        {
+          "scenario_id": "warm_cell",
+          "score": 0.2917469921183423,
+          "guard_ok": false,
+          "metric_deltas": {
+            "Q30": -0.6913350954117226,
+            "plating_loss": 0.9972664489097909,
+            "sei_growth": 0.013552463964297597,
+            "total_lli": 0.8475041510110033
+          },
+          "candidate_metrics": {
+            "Q30": 0.030208333333333334,
+            "plating_loss": 0.0010288797308697112,
+            "sei_growth": 70.97622363995764,
+            "total_lli": 0.0025261904677173247,
+            "success": true
+          },
+          "anchor_metrics": {
+            "Q30": 0.0978677293216334,
+            "plating_loss": 0.3763894278599414,
+            "sei_growth": 71.95134160423186,
+            "total_lli": 0.016565634307197447,
+            "success": true
+          }
+        }
+      ],
+      "sort_key": [
+        1.0,
+        0.0,
+        0.2887408519542715,
+        0.2897178475075945,
+        -0.6776474753389414
+      ]
+    },
+    {
+      "name": "UA5_PSMS_3.05C_rest8m_4.25C_e4.25_v4p14_h3.35_0m_stagemask",
+      "type": "UA5_PSMS_Ablation_Candidate",
+      "description": "Ablation (stage-mask) of the physics-prior masked multi-stage candidate around GLOBAL_ROOT with 3.05C / rest 8m / 4.25C entry + 2m guard / 4.25C monitor until trigger 4.14V / 3.35C hold for 0.0m / 3.50C tail",
+      "c_rates": [
+        3.05,
+        0.0,
+        4.25,
+        4.25,
+        3.5
+      ],
+      "step_durations": [
+        11.0,
+        8.0,
+        2.0,
+        6.0,
+        3.0
+      ],
+      "aggregate": {
+        "success_rate": 1.0,
+        "guard_pass_rate": 0.0,
+        "mean_score": 0.03743653599344239,
+        "worst_score": -0.09038581317433425,
+        "score_std": 0.12782234916777663,
+        "robust_utility": -0.007301286215279423,
+        "mean_metric_deltas": {
+          "Q30": -0.3112912886106446,
+          "plating_loss": 0.18769095655984067,
+          "sei_growth": 0.09959064398642653,
+          "total_lli": 0.17375583203814698
+        },
+        "worst_metric_deltas": {
+          "Q30": -0.5485562602807228,
+          "plating_loss": 0.003772280392886448,
+          "sei_growth": 0.04201989670059265,
+          "total_lli": 0.026079335918238945
+        }
+      },
+      "scenario_summaries": [
+        {
+          "scenario_id": "nominal",
+          "score": -0.09038581317433425,
+          "guard_ok": false,
+          "metric_deltas": {
+            "Q30": -0.5485562602807228,
+            "plating_loss": 0.003772280392886448,
+            "sei_growth": 0.15716139127226042,
+            "total_lli": 0.026079335918238945
+          },
+          "candidate_metrics": {
+            "Q30": 0.040582541057670216,
+            "plating_loss": 0.32096017918306696,
+            "sei_growth": 49.18988824654195,
+            "total_lli": 0.013699669810076448,
+            "success": true
+          },
+          "anchor_metrics": {
+            "Q30": 0.08989501345816822,
+            "plating_loss": 0.3221755155634952,
+            "sei_growth": 58.362167723656874,
+            "total_lli": 0.014066515184779317,
+            "success": true
+          }
+        },
+        {
+          "scenario_id": "warm_cell",
+          "score": 0.16525888516121903,
+          "guard_ok": false,
+          "metric_deltas": {
+            "Q30": -0.07402631694056636,
+            "plating_loss": 0.37160963272679487,
+            "sei_growth": 0.04201989670059265,
+            "total_lli": 0.321432328158055
+          },
+          "candidate_metrics": {
+            "Q30": 0.09062294177261661,
+            "plating_loss": 0.23651949081066012,
+            "sei_growth": 68.92795366255298,
+            "total_lli": 0.011240903904420023,
+            "success": true
+          },
+          "anchor_metrics": {
+            "Q30": 0.0978677293216334,
+            "plating_loss": 0.3763894278599414,
+            "sei_growth": 71.95134160423186,
+            "total_lli": 0.016565634307197447,
+            "success": true
+          }
+        }
+      ],
+      "sort_key": [
+        1.0,
+        0.0,
+        -0.09038581317433425,
+        -0.007301286215279423,
+        -0.3112912886106446
+      ]
+    }
+  ],
+  "artifacts": {
+    "summary_json": "/data/yangyang/class/info5000/project/experiments/fair_global_search/results/fair_smoke_global_bo_smoke_summary.json",
+    "ranked_csv": "/data/yangyang/class/info5000/project/experiments/fair_global_search/results/fair_smoke_global_bo_smoke_ranked_candidates.csv",
+    "scenario_csv": "/data/yangyang/class/info5000/project/experiments/fair_global_search/results/fair_smoke_global_bo_smoke_scenario_metrics.csv"
+  }
+}

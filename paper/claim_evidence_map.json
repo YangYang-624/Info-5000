@@ -1,0 +1,107 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-04-17T06:28:42+00:00",
+  "selected_outline_ref": "outline-001",
+  "claims": [
+    {
+      "claim_id": "claim-local-robust-motivation",
+      "status": "supported",
+      "summary": "Fixed-family robust search improves steadily from BO to VTBO to EVTBO, but the next defended gain comes from expanding the staged protocol family rather than retuning the same old surface.",
+      "evidence_items": [
+        "run-vtbo-ua4-v1",
+        "run-evtbo-ua4-v1",
+        "run-psms-v2-main-v1"
+      ],
+      "key_numbers": [
+        "VTBO Q30=0.09494",
+        "EVTBO Q30=0.09522",
+        "PSMS-v2 Q30=0.09636"
+      ]
+    },
+    {
+      "claim_id": "claim-method-extension",
+      "status": "supported_with_boundary",
+      "summary": "PSMS-v2 is a joint package upgrade in staged protocol representation and feasibility-aware constrained search, but the current evidence does not isolate any single added component as uniquely decisive.",
+      "evidence_items": [
+        "run-psms-v2-main-v1",
+        "psms-ablation-sequence-prior",
+        "psms-ablation-entry-activation"
+      ],
+      "key_numbers": [
+        "PSMS-v2 mean_delta_Q30 vs EVTBO = +0.0035845855",
+        "No-entry robust_utility = 0.0"
+      ]
+    },
+    {
+      "claim_id": "claim-fixed-comparison-contract",
+      "status": "supported",
+      "summary": "All main comparisons use the accepted PyBaMM fast-charge contract with the same four canonical metrics and robust ranking rule.",
+      "evidence_items": [
+        "baseline-metric-contract",
+        "run-evtbo-ua4-v1",
+        "run-psms-v2-main-v1"
+      ],
+      "key_numbers": [
+        "Canonical metrics: Q30, plating_loss, sei_growth, total_lli"
+      ]
+    },
+    {
+      "claim_id": "claim-final-beats-baseline",
+      "status": "supported",
+      "summary": "The final PSMS-v2 winner beats the accepted BO_3step_aggressive baseline on the headline nominal metric while preserving or improving the degradation metrics.",
+      "evidence_items": [
+        "baseline-metric-contract",
+        "run-psms-v2-main-v1"
+      ],
+      "key_numbers": [
+        "Q30: 0.08990 -> 0.09636 (+7.19%)",
+        "plating_loss unchanged at 0.32184",
+        "sei_growth: 57.48976",
+        "total_lli: 0.01402332"
+      ]
+    },
+    {
+      "claim_id": "claim-followup-strengthens-run",
+      "status": "supported",
+      "summary": "PSMS-v2 improves on the immediate EVTBO anchor under the same robust bundle and full guard feasibility.",
+      "evidence_items": [
+        "run-evtbo-ua4-v1",
+        "run-psms-v2-main-v1"
+      ],
+      "key_numbers": [
+        "Q30: 0.09522 -> 0.09636 (+1.20%)",
+        "success_rate = 1.0",
+        "guard_pass_rate = 1.0",
+        "mean_delta_Q30 vs EVTBO = +0.0035845855"
+      ]
+    },
+    {
+      "claim_id": "claim-heldout-rank1",
+      "status": "supported",
+      "summary": "The PSMS-v2 winner remains rank-1 and fully feasible on the held-out combined-stress bundle.",
+      "evidence_items": [
+        "heldout-combo-v1"
+      ],
+      "key_numbers": [
+        "robust_utility = 0.0706446402",
+        "mean_score = 0.0877213802",
+        "worst_score = 0.0032145165",
+        "guard_pass_rate = 1.0"
+      ]
+    },
+    {
+      "claim_id": "claim-local-boundary",
+      "status": "supported",
+      "summary": "The present evidence supports a package-level PSMS robustness claim under the fixed contract, not a universal optimality claim or a single-component mechanism claim.",
+      "evidence_items": [
+        "heldout-combo-v1",
+        "psms-ablation-sequence-prior",
+        "psms-ablation-entry-activation"
+      ],
+      "key_numbers": [
+        "No-sequence-prior robust_utility = 0.0238241660",
+        "No-entry robust_utility = 0.0"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "rows": [
+    {
+      "method": "GitHub-DirectBO-3step",
+      "search_style": "direct_bo",
+      "space": "3-step",
+      "evaluations_total": 109,
+      "evaluations_adaptive": 105,
+      "q30_nominal": 0.0899,
+      "notes": "4 preexisting + 35 epochs x 3 trials from the original 3-step notebook."
+    },
+    {
+      "method": "GitHub-DirectBO-5step",
+      "search_style": "direct_bo",
+      "space": "5-step",
+      "evaluations_total": 124,
+      "evaluations_adaptive": 120,
+      "q30_nominal": null,
+      "notes": "4 preexisting + 40 epochs x 3 trials from the original 5-step notebook."
+    },
+    {
+      "method": "VTBO",
+      "search_style": "hierarchical_stage",
+      "space": "UA4",
+      "evaluations_total": 15,
+      "evaluations_adaptive": 10,
+      "q30_nominal": 0.09494306799062802,
+      "notes": "stop_reason=trust_region_floor"
+    },
+    {
+      "method": "EVTBO",
+      "search_style": "hierarchical_stage",
+      "space": "UA4",
+      "evaluations_total": 13,
+      "evaluations_adaptive": 8,
+      "q30_nominal": 0.09521888721884313,
+      "notes": "stop_reason=trust_region_floor"
+    },
+    {
+      "method": "PSMS-v2",
+      "search_style": "hierarchical_stage",
+      "space": "UA5",
+      "evaluations_total": 16,
+      "evaluations_adaptive": 11,
+      "q30_nominal": 0.09635771522621481,
+      "notes": "stop_reason=trust_region_floor"
+    },
+    {
+      "method": "Hierarchical-Pipeline-Total",
+      "search_style": "hierarchical_pipeline",
+      "space": "VTBO->EVTBO->PSMS",
+      "evaluations_total": 44,
+      "evaluations_adaptive": 29,
+      "q30_nominal": 0.09635771522621481,
+      "notes": "End-to-end cost across the three promoted stages; final protocol quality taken from PSMS-v2."
+    }
+  ]
+}

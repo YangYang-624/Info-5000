@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "section_id": "main-results",
+  "title": "Main Results",
+  "rows": [
+    {
+      "item_id": "run-vtbo-ua4-v1",
+      "title": "Voltage-aware tapered proxy search beyond the 4.15C incumbent",
+      "kind": "main_experiment",
+      "paper_role": "main_text",
+      "status": "completed",
+      "claim_links": [
+        "claim-followup-strengthens-run"
+      ],
+      "setup_note": "Used the accepted lumo PyBaMM environment and kept the four canonical metrics unchanged while extending the protocol family with a tail-rate dimension.",
+      "metric_summary": "Q30=0.09494; plating_loss=0.32184; sei_growth=57.54798; total_lli=0.01402536",
+      "result_summary": "VTBO pushed the frontier beyond the 4.15C incumbent and improved nominal Q30 by +5.62% over BO_3step_aggressive while keeping full guard feasibility.",
+      "impact_summary": "This established the last strong fixed-family improvement before EVTBO and PSMS-v2.",
+      "source_paths": [
+        "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/run-vtbo-ua4-v1/experiments/main/run-vtbo-ua4-v1/RESULT.json",
+        "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/run-vtbo-ua4-v1/experiments/main/ua_vtbo_v1/results/ua_vtbo_search_summary.json"
+      ],
+      "updated_at": "2026-04-15T10:52:31+00:00"
+    },
+    {
+      "item_id": "run-evtbo-ua4-v1",
+      "title": "UA_EVTBO v1 bounded robust search on followup_v1",
+      "kind": "main_experiment",
+      "paper_role": "main_text",
+      "status": "completed",
+      "claim_links": [
+        "claim-followup-strengthens-run"
+      ],
+      "setup_note": "Kept the accepted four-metric contract and used EVTBO as the immediate pre-PSMS frontier anchor under the same followup_v1 robust bundle.",
+      "metric_summary": "Q30=0.09522; plating_loss=0.32184; sei_growth=57.53493; total_lli=0.01402490",
+      "result_summary": "EVTBO improved nominal Q30 over VTBO while preserving success_rate=1.0 and guard_pass_rate=1.0, becoming the last previous SOTA line before PSMS-v2.",
+      "impact_summary": "This defines the direct predecessor that PSMS-v2 must beat to justify a new method story.",
+      "source_paths": [
+        "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/run-evtbo-ua4-v1/experiments/main/run-evtbo-ua4-v1/RESULT.json",
+        "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/run-evtbo-ua4-v1/experiments/main/ua_evtbo_v1/results/ua_evtbo_search_summary.json"
+      ],
+      "updated_at": "2026-04-15T11:48:35+00:00"
+    },
+    {
+      "item_id": "run-psms-v2-main-v1",
+      "title": "PSMS-v2 larger-budget robust search beyond the EVTBO anchor",
+      "kind": "main_experiment",
+      "paper_role": "main_text",
+      "status": "completed",
+      "claim_links": [
+        "claim-final-beats-baseline",
+        "claim-followup-strengthens-run"
+      ],
+      "setup_note": "Reused the accepted PyBaMM fast-charge contract and the followup_v1 robust bundle, but searched a richer PSMS-v2 staged family with entry/monitor/hold roles and feasibility-aware ordering under the same robust ranking rule.",
+      "metric_summary": "Q30=0.09636; plating_loss=0.32184; sei_growth=57.48976; total_lli=0.01402332",
+      "result_summary": "PSMS-v2 promoted UA5_PSMS_3.00C_rest10m_4.30C_e4.50_v4p18_h3.35_1p5m as the robust top protocol. Nominal Q30 improved by +7.19% over BO_3step_aggressive and by +1.20% over EVTBO, while plating_loss stayed flat and both sei_growth and total_lli improved.",
+      "impact_summary": "This is the headline evidence that the full PSMS package improves the frontier while preserving full feasibility; the later ablations bound that claim at the package level rather than a single-component mechanism.",
+      "source_paths": [
+        "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/idea-idea-8d0629d2/experiments/main/run-psms-v2-main-v1/RESULT.json",
+        "/data/yangyang/class/info5000/DeepScientist/quests/001/.ds/worktrees/idea-idea-8d0629d2/experiments/main/ua_psms_v1/results/ua_psms_v2_search_main_summary.json"
+      ],
+      "updated_at": "2026-04-15T16:55:14+00:00"
+    }
+  ],
+  "updated_at": "2026-04-17T04:24:54+00:00"
+}
