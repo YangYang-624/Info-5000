@@ -1,0 +1,55 @@
+{
+  "generated_at": "2026-04-19T00:00:00+00:00",
+  "mode": "search",
+  "run_id": "stage-one-reference-v1",
+  "quest_root": ".",
+  "metric_contract_path": "baselines/vendor/ax_pybamm_fastcharge/json/metric_contract.json",
+  "baseline_reference": {
+    "baseline_id": "ax-pybamm-fastcharge",
+    "variant_id": "bo_3step_aggressive",
+    "comparison_baseline_head": "BO_3step_aggressive"
+  },
+  "robust_top_name": "UA4_VTBO_3.00C_rest10m_4.25C_tail2.40C",
+  "public_robust_top_name": "stage_one",
+  "nominal_top_name": "UA4_VTBO_3.00C_rest10m_4.25C_tail2.40C",
+  "public_nominal_top_name": "stage_one",
+  "candidates_evaluated": 15,
+  "adaptive_candidates_evaluated": 10,
+  "search_controller": {
+    "stop_reason": "trust_region_floor"
+  },
+  "ranked_candidates": [
+    {
+      "name": "UA4_VTBO_3.00C_rest10m_4.25C_tail2.40C",
+      "type": "UA4_VTBO_Candidate",
+      "description": "Reference summary for the four-step tail-search winner used in the public cost comparison.",
+      "c_rates": [
+        3.0,
+        0.0,
+        4.25,
+        2.4
+      ],
+      "step_durations": [
+        10.0,
+        10.0,
+        7.0,
+        3.0
+      ],
+      "scenario_summaries": [
+        {
+          "scenario_id": "nominal",
+          "candidate_metrics": {
+            "Q30": 0.09494306799062802,
+            "plating_loss": 0.3218373881357771,
+            "sei_growth": 57.547978013417904,
+            "total_lli": 0.014025360821606166,
+            "success": true
+          }
+        }
+      ]
+    }
+  ],
+  "artifacts": {
+    "summary_json": "experiments/runs/stage_one/results/stage_one_summary.json"
+  }
+}

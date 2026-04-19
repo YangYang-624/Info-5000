@@ -1,6 +1,0 @@
-name,type,description,Q30,plating_loss,sei_growth,sei_li_loss,total_lli,success,c_rates,step_durations
-CCCV_2.0C,CCCV,"Constant current at 2.0C until 4.2V, then constant voltage",0.07163606921311345,0.47588502672759014,63.130851008862926,0.002212811740140009,0.019968795532639617,True,[2.0],[30.0]
-LinearTaper_3.0C-1.0C,LinearTaper,Linear current taper from 3.0C to 1.0C over 6 steps,0.05346444871088208,0.4117025163390532,54.26039671508839,0.0019018917210373981,0.01726312982872866,True,"[3.0, 2.6, 2.2, 1.7999999999999998, 1.4, 1.0]","[5.0, 5.0, 5.0, 5.0, 5.0, 5.0]"
-LinearTaper_3.0C-0.5C,LinearTaper,Linear current taper from 3.0C to 0.5C over 6 steps,0.0684906919777391,0.48061019961321005,62.20765880061668,0.0021804527504516503,0.020112739827277647,True,"[3.0, 2.5, 2.0, 1.5, 1.0, 0.5]","[5.0, 5.0, 5.0, 5.0, 5.0, 5.0]"
-BO_3step_aggressive,BO_Optimal,Best 3-step protocol from single-objective BO (β=0.008): Charge-Rest-Charge,0.08989501345816822,0.3221755155634952,58.362167723656874,0.002045663694614185,0.014066515184779317,True,"[3.0, 0.0, 3.0]","[10.0, 10.0, 10.0]"
-BO_3step_conservative,BO_Optimal,Best 3-step protocol from single-objective BO (β=0.015): Low degradation focus,0.030208333333333327,0.0014056407128248296,59.76628057955572,0.0020948795274813563,0.002147326089808862,True,"[0.91, 0.0, 0.54]","[10.0, 10.0, 10.0]"

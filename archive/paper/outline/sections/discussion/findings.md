@@ -1,6 +1,0 @@
-# Findings · Discussion and Limitations
-
-## Result Highlights
-
-- `Ablate sequence-feasibility prior`: The no-sequence-prior rerun still recovered the PSMS winner family with full feasibility. The top candidate `UA5_PSMS_3.00C_rest10m_4.30C_e4.50_v4p18_h3.35_1p5m_noprior` achieved success_rate=1.0, guard_pass_rate=1.0, mean_score=0.04138956386002244, worst_score=0.0, and robust_utility=0.023824166035076547 versus the EVTBO anchor. This rules out the sequence prior as a standalone explanation for the gain and supports keeping the paper claim at the package level.
-- `Ablate entry activation`: The full no-entry rerun did not materially weaken the line. The robust top remained the EVTBO anchor `UA4_EVTBO_3.00C_rest10m_4.30C_v4p16`, and the first no-entry PSMS candidate `UA5_PSMS_3.00C_rest10m_4.30C_e4.30_v4p16_h3.35_0m_noentry` matched the anchor exactly across all five scenarios with success_rate=1.0, guard_pass_rate=1.0, mean_score=0.0, worst_score=0.0, robust_utility=0.0, and zero mean/worst deltas on Q30, plating_loss, sei_growth, and total_lli. This rules out entry activation as a standalone explanation for the gain and supports keeping the paper claim at the package level. (success_rate=1; guard_pass_rate=1; worst_score=0; robust_utility=0; mean_delta_Q30=0; mean_delta_plating_loss=0)

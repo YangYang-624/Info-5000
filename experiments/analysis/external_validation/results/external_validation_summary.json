@@ -1,0 +1,568 @@
+{
+  "generated_at": "2026-04-18T15:37:05.485638+00:00",
+  "mode": "fixed_protocol_validation",
+  "run_id": "analysis-external-validation-v1",
+  "quest_root": ".",
+  "metric_contract_path": "baselines/vendor/ax_pybamm_fastcharge/json/metric_contract.json",
+  "baseline_reference": {
+    "baseline_id": "ax-pybamm-fastcharge",
+    "variant_id": "bo_3step_aggressive",
+    "comparison_baseline_head": "BO_3step_aggressive",
+    "anchor_protocol": "UA4_EVTBO_3.00C_rest10m_4.30C_v4p16",
+    "comparison_baseline_metrics": {
+      "Q30": 0.08989501345816822,
+      "plating_loss": 0.3221755155634952,
+      "sei_growth": 58.362167723656874,
+      "total_lli": 0.014066515184779317,
+      "success": true
+    },
+    "current_nominal_metrics": {
+      "Q30": 0.09635771522621481,
+      "plating_loss": 0.3218373881357771,
+      "sei_growth": 57.489763270389886,
+      "total_lli": 0.01402332032532324,
+      "success": true
+    },
+    "previous_nominal_metrics": {
+      "Q30": 0.09521888721884313,
+      "plating_loss": 0.3218373881357771,
+      "sei_growth": 57.53493237884105,
+      "total_lli": 0.014024903556530726,
+      "success": true
+    }
+  },
+  "validation_question": "Does the current stage-three winner remain best under external combined stress?",
+  "scenarios": [
+    {
+      "scenario_id": "nominal",
+      "description": "No parameter perturbation",
+      "updates": {}
+    },
+    {
+      "scenario_id": "hot_plating_combo",
+      "description": "Increase ambient and initial temperature by 8 K and lithium plating kinetics by 25%",
+      "updates": {
+        "Ambient temperature [K]": {
+          "shift": 8.0
+        },
+        "Initial temperature [K]": {
+          "shift": 8.0
+        },
+        "Lithium plating kinetic rate constant [m.s-1]": {
+          "scale": 1.25
+        }
+      }
+    },
+    {
+      "scenario_id": "hot_sei_combo",
+      "description": "Increase ambient and initial temperature by 8 K and SEI kinetics by 20%",
+      "updates": {
+        "Ambient temperature [K]": {
+          "shift": 8.0
+        },
+        "Initial temperature [K]": {
+          "shift": 8.0
+        },
+        "SEI kinetic rate constant [m.s-1]": {
+          "scale": 1.2
+        }
+      }
+    },
+    {
+      "scenario_id": "hot_dual_combo",
+      "description": "Increase ambient and initial temperature by 8 K with both plating and SEI kinetics stressed",
+      "updates": {
+        "Ambient temperature [K]": {
+          "shift": 8.0
+        },
+        "Initial temperature [K]": {
+          "shift": 8.0
+        },
+        "Lithium plating kinetic rate constant [m.s-1]": {
+          "scale": 1.25
+        },
+        "SEI kinetic rate constant [m.s-1]": {
+          "scale": 1.2
+        }
+      }
+    }
+  ],
+  "scenario_set": "combined_stress_v1",
+  "selection_policy": {
+    "q30_drop_tolerance": 0.05,
+    "degradation_drop_tolerance": 0.1,
+    "risk_aversion": 0.35,
+    "ranking_rule": [
+      "success_rate",
+      "guard_pass_rate",
+      "worst_score",
+      "robust_utility",
+      "mean_delta_Q30"
+    ],
+    "anchor_protocol": "UA4_EVTBO_3.00C_rest10m_4.30C_v4p16"
+  },
+  "robust_top_name": "UA5_PSMS_3.00C_rest10m_4.30C_e4.50_v4p18_h3.35_1p5m",
+  "public_robust_top_name": "stage_three",
+  "nominal_top_name": "UA5_PSMS_3.00C_rest10m_4.30C_e4.50_v4p18_h3.35_1p5m",
+  "public_nominal_top_name": "stage_three",
+  "ranking_changed_vs_nominal": false,
+  "protocols_evaluated": [
+    "UA5_PSMS_3.00C_rest10m_4.30C_e4.50_v4p18_h3.35_1p5m",
+    "UA4_EVTBO_3.00C_rest10m_4.30C_v4p16",
+    "BO_3step_aggressive"
+  ],
+  "public_protocols_evaluated": [
+    "stage_three",
+    "stage_two",
+    "baseline"
+  ],
+  "ranked_candidates": [
+    {
+      "name": "UA5_PSMS_3.00C_rest10m_4.30C_e4.50_v4p18_h3.35_1p5m",
+      "type": "UA5_PSMS_Candidate",
+      "description": "Physics-prior masked multi-stage candidate around UA4_EVTBO_3.00C_rest10m_4.30C_v4p16 with 3.00C / rest 10m / 4.50C entry + 2m guard / 4.30C monitor until trigger 4.18V / 3.35C hold for 1.5m / 2.80C tail",
+      "c_rates": [
+        3.0,
+        0.0,
+        4.5,
+        4.3,
+        3.35,
+        2.8
+      ],
+      "step_durations": [
+        10.0,
+        10.0,
+        2.0,
+        3.5,
+        1.5,
+        3.0
+      ],
+      "aggregate": {
+        "success_rate": 1.0,
+        "guard_pass_rate": 1.0,
+        "mean_score": 0.08772138016231064,
+        "worst_score": 0.0032145165359606016,
+        "score_std": 0.04879068573662994,
+        "robust_utility": 0.07064464015449017,
+        "mean_metric_deltas": {
+          "Q30": 0.0035159839454180692,
+          "plating_loss": 0.20772537501597801,
+          "sei_growth": 0.002223947816971016,
+          "total_lli": 0.13742021387087544
+        },
+        "worst_metric_deltas": {
+          "Q30": 0.00031636251062799344,
+          "plating_loss": 0.0,
+          "sei_growth": 0.0007850727650767798,
+          "total_lli": 0.00011288713687798549
+        }
+      },
+      "scenario_summaries": [
+        {
+          "scenario_id": "nominal",
+          "score": 0.0032145165359606016,
+          "guard_ok": true,
+          "metric_deltas": {
+            "Q30": 0.011960106241887642,
+            "plating_loss": 0.0,
+            "sei_growth": 0.0007850727650767798,
+            "total_lli": 0.00011288713687798549
+          },
+          "candidate_metrics": {
+            "Q30": 0.09635771522621481,
+            "plating_loss": 0.3218373881357771,
+            "sei_growth": 57.489763270389886,
+            "total_lli": 0.01402332032532324,
+            "success": true
+          },
+          "anchor_metrics": {
+            "Q30": 0.09521888721884313,
+            "plating_loss": 0.3218373881357771,
+            "sei_growth": 57.53493237884105,
+            "total_lli": 0.014024903556530726,
+            "success": true
+          }
+        },
+        {
+          "scenario_id": "hot_plating_combo",
+          "score": 0.11548956144704992,
+          "guard_ok": true,
+          "metric_deltas": {
+            "Q30": 0.00031636251062799344,
+            "plating_loss": 0.2730404903486883,
+            "sei_growth": 0.002915473648347656,
+            "total_lli": 0.1856859192805357
+          },
+          "candidate_metrics": {
+            "Q30": 0.09932862260579155,
+            "plating_loss": 0.11094533549565697,
+            "sei_growth": 77.41949665192456,
+            "total_lli": 0.006853182634508532,
+            "success": true
+          },
+          "anchor_metrics": {
+            "Q30": 0.09929720869155154,
+            "plating_loss": 0.15261556389691117,
+            "sei_growth": 77.6458711431454,
+            "total_lli": 0.008415896024361503,
+            "success": true
+          }
+        },
+        {
+          "scenario_id": "hot_sei_combo",
+          "score": 0.11605116222188698,
+          "guard_ok": true,
+          "metric_deltas": {
+            "Q30": 0.0009865155095425023,
+            "plating_loss": 0.279428386410163,
+            "sei_growth": 0.0025462243499323445,
+            "total_lli": 0.18124352261791007
+          },
+          "candidate_metrics": {
+            "Q30": 0.0989963687914721,
+            "plating_loss": 0.09906284755020728,
+            "sei_growth": 80.20341648678274,
+            "total_lli": 0.00650740891078959,
+            "success": true
+          },
+          "anchor_metrics": {
+            "Q30": 0.09889880358785748,
+            "plating_loss": 0.1374781432988779,
+            "sei_growth": 80.4081536856302,
+            "total_lli": 0.007947917470645879,
+            "success": true
+          }
+        },
+        {
+          "scenario_id": "hot_dual_combo",
+          "score": 0.11613028044434505,
+          "guard_ok": true,
+          "metric_deltas": {
+            "Q30": 0.0008009515196141393,
+            "plating_loss": 0.27843262330506074,
+            "sei_growth": 0.002649020504527283,
+            "total_lli": 0.18263852644817802
+          },
+          "candidate_metrics": {
+            "Q30": 0.09908272064428326,
+            "plating_loss": 0.10247435340349162,
+            "sei_growth": 80.24495801666362,
+            "total_lli": 0.006636153388939485,
+            "success": true
+          },
+          "anchor_metrics": {
+            "Q30": 0.09900342370162245,
+            "plating_loss": 0.14201633376617473,
+            "sei_growth": 80.45809315518687,
+            "total_lli": 0.008118994598683813,
+            "success": true
+          }
+        }
+      ],
+      "sort_key": [
+        1.0,
+        1.0,
+        0.0032145165359606016,
+        0.07064464015449017,
+        0.0035159839454180692
+      ]
+    },
+    {
+      "name": "UA4_EVTBO_3.00C_rest10m_4.30C_v4p16",
+      "type": "UA4_EVTBO_Candidate",
+      "description": "Event-triggered voltage-boundary trust-region BO candidate around UA4_VTBO_3.00C_rest10m_4.25C_tail2.40C with 3.00C / rest 10m / 4.30C entry + 2m guard / trigger 4.16V / 3.05C tail",
+      "c_rates": [
+        3.0,
+        0.0,
+        4.3,
+        4.3,
+        3.05
+      ],
+      "step_durations": [
+        10.0,
+        10.0,
+        2.0,
+        5.0,
+        3.0
+      ],
+      "aggregate": {
+        "success_rate": 1.0,
+        "guard_pass_rate": 1.0,
+        "mean_score": 0.0,
+        "worst_score": 0.0,
+        "score_std": 0.0,
+        "robust_utility": 0.0,
+        "mean_metric_deltas": {
+          "Q30": 0.0,
+          "plating_loss": 0.0,
+          "sei_growth": 0.0,
+          "total_lli": 0.0
+        },
+        "worst_metric_deltas": {
+          "Q30": 0.0,
+          "plating_loss": 0.0,
+          "sei_growth": 0.0,
+          "total_lli": 0.0
+        }
+      },
+      "scenario_summaries": [
+        {
+          "scenario_id": "nominal",
+          "score": 0.0,
+          "guard_ok": true,
+          "metric_deltas": {
+            "Q30": 0.0,
+            "plating_loss": 0.0,
+            "sei_growth": 0.0,
+            "total_lli": 0.0
+          },
+          "candidate_metrics": {
+            "Q30": 0.09521888721884313,
+            "plating_loss": 0.3218373881357771,
+            "sei_growth": 57.53493237884105,
+            "total_lli": 0.014024903556530726,
+            "success": true
+          },
+          "anchor_metrics": {
+            "Q30": 0.09521888721884313,
+            "plating_loss": 0.3218373881357771,
+            "sei_growth": 57.53493237884105,
+            "total_lli": 0.014024903556530726,
+            "success": true
+          }
+        },
+        {
+          "scenario_id": "hot_plating_combo",
+          "score": 0.0,
+          "guard_ok": true,
+          "metric_deltas": {
+            "Q30": 0.0,
+            "plating_loss": 0.0,
+            "sei_growth": 0.0,
+            "total_lli": 0.0
+          },
+          "candidate_metrics": {
+            "Q30": 0.09929720869155154,
+            "plating_loss": 0.15261556389691117,
+            "sei_growth": 77.6458711431454,
+            "total_lli": 0.008415896024361503,
+            "success": true
+          },
+          "anchor_metrics": {
+            "Q30": 0.09929720869155154,
+            "plating_loss": 0.15261556389691117,
+            "sei_growth": 77.6458711431454,
+            "total_lli": 0.008415896024361503,
+            "success": true
+          }
+        },
+        {
+          "scenario_id": "hot_sei_combo",
+          "score": 0.0,
+          "guard_ok": true,
+          "metric_deltas": {
+            "Q30": 0.0,
+            "plating_loss": 0.0,
+            "sei_growth": 0.0,
+            "total_lli": 0.0
+          },
+          "candidate_metrics": {
+            "Q30": 0.09889880358785748,
+            "plating_loss": 0.1374781432988779,
+            "sei_growth": 80.4081536856302,
+            "total_lli": 0.007947917470645879,
+            "success": true
+          },
+          "anchor_metrics": {
+            "Q30": 0.09889880358785748,
+            "plating_loss": 0.1374781432988779,
+            "sei_growth": 80.4081536856302,
+            "total_lli": 0.007947917470645879,
+            "success": true
+          }
+        },
+        {
+          "scenario_id": "hot_dual_combo",
+          "score": 0.0,
+          "guard_ok": true,
+          "metric_deltas": {
+            "Q30": 0.0,
+            "plating_loss": 0.0,
+            "sei_growth": 0.0,
+            "total_lli": 0.0
+          },
+          "candidate_metrics": {
+            "Q30": 0.09900342370162245,
+            "plating_loss": 0.14201633376617473,
+            "sei_growth": 80.45809315518687,
+            "total_lli": 0.008118994598683813,
+            "success": true
+          },
+          "anchor_metrics": {
+            "Q30": 0.09900342370162245,
+            "plating_loss": 0.14201633376617473,
+            "sei_growth": 80.45809315518687,
+            "total_lli": 0.008118994598683813,
+            "success": true
+          }
+        }
+      ],
+      "sort_key": [
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "BO_3step_aggressive",
+      "type": "BO_Optimal",
+      "description": "Best 3-step protocol from single-objective BO (β=0.008): Charge-Rest-Charge",
+      "c_rates": [
+        3.0,
+        0.0,
+        3.0
+      ],
+      "step_durations": [
+        10.0,
+        10.0,
+        10.0
+      ],
+      "aggregate": {
+        "success_rate": 1.0,
+        "guard_pass_rate": 0.0,
+        "mean_score": -0.5081987322935504,
+        "worst_score": -0.7065134543559844,
+        "score_std": 0.28421102560627576,
+        "robust_utility": -0.6076725912557469,
+        "mean_metric_deltas": {
+          "Q30": 0.0032581218892010853,
+          "plating_loss": -1.203808176274318,
+          "sei_growth": -0.030930700215722525,
+          "total_lli": -0.8013141745733622
+        },
+        "worst_metric_deltas": {
+          "Q30": -0.055911951044323366,
+          "plating_loss": -1.7028699508091794,
+          "sei_growth": -0.03811265444876753,
+          "total_lli": -1.1117048595222645
+        }
+      },
+      "scenario_summaries": [
+        {
+          "scenario_id": "nominal",
+          "score": -0.018576878740253742,
+          "guard_ok": false,
+          "metric_deltas": {
+            "Q30": -0.055911951044323366,
+            "plating_loss": -0.0010506157462831975,
+            "sei_growth": -0.014377966751900595,
+            "total_lli": -0.0029669814185078074
+          },
+          "candidate_metrics": {
+            "Q30": 0.08989501345816822,
+            "plating_loss": 0.3221755155634952,
+            "sei_growth": 58.362167723656874,
+            "total_lli": 0.014066515184779317,
+            "success": true
+          },
+          "anchor_metrics": {
+            "Q30": 0.09521888721884313,
+            "plating_loss": 0.3218373881357771,
+            "sei_growth": 57.53493237884105,
+            "total_lli": 0.014024903556530726,
+            "success": true
+          }
+        },
+        {
+          "scenario_id": "hot_plating_combo",
+          "score": -0.6254320815346971,
+          "guard_ok": false,
+          "metric_deltas": {
+            "Q30": 0.02198591024569988,
+            "plating_loss": -1.4751612895573802,
+            "sei_growth": -0.03811265444876753,
+            "total_lli": -1.0104402923783407
+          },
+          "candidate_metrics": {
+            "Q30": 0.10148034820949252,
+            "plating_loss": 0.3777481359416054,
+            "sei_growth": 80.60516139939763,
+            "total_lli": 0.016919656463843056,
+            "success": true
+          },
+          "anchor_metrics": {
+            "Q30": 0.09929720869155154,
+            "plating_loss": 0.15261556389691117,
+            "sei_growth": 77.6458711431454,
+            "total_lli": 0.008415896024361503,
+            "success": true
+          }
+        },
+        {
+          "scenario_id": "hot_sei_combo",
+          "score": -0.7065134543559844,
+          "guard_ok": false,
+          "metric_deltas": {
+            "Q30": 0.024300291573116903,
+            "plating_loss": -1.7028699508091794,
+            "sei_growth": -0.03577929866561086,
+            "total_lli": -1.1117048595222645
+          },
+          "candidate_metrics": {
+            "Q30": 0.10130207335127484,
+            "plating_loss": 0.3715855424155754,
+            "sei_growth": 83.2851010314987,
+            "total_lli": 0.016783655945844807,
+            "success": true
+          },
+          "anchor_metrics": {
+            "Q30": 0.09889880358785748,
+            "plating_loss": 0.1374781432988779,
+            "sei_growth": 80.4081536856302,
+            "total_lli": 0.007947917470645879,
+            "success": true
+          }
+        },
+        {
+          "scenario_id": "hot_dual_combo",
+          "score": -0.6822725145432662,
+          "guard_ok": false,
+          "metric_deltas": {
+            "Q30": 0.022658236782310923,
+            "plating_loss": -1.636150848984429,
+            "sei_growth": -0.03545288099661111,
+            "total_lli": -1.0801445649743358
+          },
+          "candidate_metrics": {
+            "Q30": 0.10124666671811326,
+            "plating_loss": 0.37437647882735753,
+            "sei_growth": 83.31056435703196,
+            "total_lli": 0.016888682487508123,
+            "success": true
+          },
+          "anchor_metrics": {
+            "Q30": 0.09900342370162245,
+            "plating_loss": 0.14201633376617473,
+            "sei_growth": 80.45809315518687,
+            "total_lli": 0.008118994598683813,
+            "success": true
+          }
+        }
+      ],
+      "sort_key": [
+        1.0,
+        0.0,
+        -0.7065134543559844,
+        -0.6076725912557469,
+        0.0032581218892010853
+      ]
+    }
+  ],
+  "artifacts": {
+    "summary_json": "experiments/analysis/external_validation/results/external_validation_summary.json",
+    "ranked_csv": "experiments/analysis/external_validation/results/external_validation_ranked_candidates.csv",
+    "scenario_csv": "experiments/analysis/external_validation/results/external_validation_scenario_metrics.csv"
+  }
+}

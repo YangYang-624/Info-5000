@@ -1,269 +1,150 @@
 # Results
 
-这个文件是面向第一次接触项目的人写的结果说明。
+这个文件只回答五个问题：
 
-它尽量用最直白的话回答下面这些问题：
+1. 当前最好的协议是谁。
+2. 它比 `baseline` 和前一阶段强在哪里。
+3. 为什么这个结果不是靠更高搜索成本硬堆出来的。
+4. 这条主线是怎么逐阶段收敛出来的。
+5. 现在哪些结论可以稳妥对外说。
 
-1. 我们最后到底做出来了什么。
-2. 它比 baseline 到底好在哪里。
-3. 这个结果现在有多可信。
-4. 成本应该怎么理解。
-5. 哪些话现在可以讲，哪些话不能讲。
+## 1. 当前 winner
 
-## 1. 一句话结论
+当前对外公开的最优线直接叫：
 
-当前这个项目最核心的结论是：
+- `stage_three`
 
-- 在固定 GitHub/PyBaMM 评估合同下，`PSMS-v2` 找到了当前已验证最强的一条快充协议。
+它对应的一条直观协议是：
 
-这条最终协议是：
+- `3.0C -> rest 10 min -> 4.5C entry 2 min -> 4.3C until 4.18V -> 3.35C hold 1.5 min -> 2.8C tail 3 min`
 
-- `UA5_PSMS_3.00C_rest10m_4.30C_e4.50_v4p18_h3.35_1p5m`
+如果只看结果角色，可以把整条方法链理解成：
 
-## 2. 这个结果到底比谁更好
+`baseline -> stage_one -> stage_two -> stage_three`
 
-我们主要和两类对象比较：
+## 2. 关键比较
 
-- 原始 GitHub baseline，代表是 `BO_3step_aggressive`
-- 我们自己的前一代方法，代表是 `EVTBO`
+| 方法 | nominal Q30 | 角色 |
+| --- | ---: | --- |
+| `baseline` | `0.08990` | GitHub / vendor 主 baseline |
+| `stage_one` | `0.09494` | 第一阶段 winner |
+| `stage_two` | `0.09522` | 第二阶段 winner |
+| `stage_three` | `0.09636` | 当前 winner |
 
-所以你可以把结果理解成两层提升：
+当前最关键的事实是：
 
-- 第一层：相对原始 baseline，我们明显更好
-- 第二层：相对已经很强的 EVTBO，我们还进一步往前推了一点
+- `stage_one` 已经明显强于 `baseline`；
+- `stage_two` 在 `stage_one` 基础上继续提升；
+- `stage_three` 进一步超过 `stage_two`；
+- `stage_three` 不只是 nominal 更高，在外部组合应力验证里也仍然排第一。
 
-## 3. 最核心的 nominal 数字
+## 3. 为什么这个结果有意义
 
-nominal 主结果如下：
+如果只说“效果更好”，别人会自然怀疑：
 
-- `BO_3step_aggressive`: `Q30 = 0.08990 Ah`
-- `UA4_VTBO`: `Q30 = 0.09494 Ah`
-- `UA4_EVTBO`: `Q30 = 0.09522 Ah`
-- `UA5_PSMS`: `Q30 = 0.09636 Ah`
+- 你是不是只是多搜了很多轮？
+- 你是不是成本比 baseline 高很多？
 
-如果只看最重要的 headline 数字：
+当前仓库保留的成本证据恰恰说明不是这样。
 
-- baseline `BO_3step_aggressive` 是 `0.08990 Ah`
-- 最终 `PSMS-v2` 是 `0.09636 Ah`
+### 3.1 搜索成本比较
 
-也就是：
+文件：
 
-- 绝对提升约 `0.00646 Ah`
-- 相对提升约 `+7.19%`
+- `experiments/analysis/search_cost/search_cost_comparison.md`
 
-如果和 EVTBO 比：
+当前保留结果是：
 
-- EVTBO 是 `0.09522 Ah`
-- `PSMS-v2` 是 `0.09636 Ah`
+- GitHub direct BO 3-step：`109` 次 eval
+- GitHub direct BO 5-step：`124` 次 eval
+- `stage_one`：`15` 次 eval
+- `stage_two`：`13` 次 eval
+- `stage_three`：`14` 次 eval
+- 完整三阶段主线：`42` 次 eval
 
-也就是：
+这说明：
 
-- 绝对提升约 `0.00114 Ah`
-- 相对提升约 `+1.20%`
+- 我们不是靠“公开搜索预算比 baseline 更大”才得到更强协议；
+- 相反，当前公开主线总成本是 `42` 次 candidate-level eval，明显低于 GitHub direct BO 的 `109` 和 `124`；
+- 所以这条结果的意义在于：在同一个评价合同下，我们用更低的公开搜索成本，找到了更强的协议。
 
-## 4. 这个提升不是只看一个指标瞎讲的
+## 4. 这条主线是怎么收敛出来的
 
-整个项目不是只看 `Q30`。
+三阶段主线不是并行乱跑，也不是把所有预算混在一起。
 
-固定使用的四个核心指标是：
+它的流程是：
 
-- `Q30`
-- `plating_loss`
-- `sei_growth`
-- `total_lli`
+1. `stage_one` 先围绕自己的 anchor 搜索。
+2. 当当前 trust region 收敛到最小半径，或者预算用完时停止。
+3. 把这一阶段的 winner 提升成下一阶段 anchor。
+4. `stage_two` 再重复同样的局部收敛过程。
+5. 最后 `stage_three` 才继续往前推进。
 
-方向是：
+当前保留结果里，三个阶段的停止方式都很一致：
 
-- `Q30` 越大越好
-- 其余三个越小越好
+- `stage_one`：`15` 次 eval，`stop_reason=trust_region_floor`
+- `stage_two`：`13` 次 eval，`stop_reason=trust_region_floor`
+- `stage_three`：`14` 次 eval，`stop_reason=trust_region_floor`
 
-这很重要，因为如果只看单一 throughput 指标，很容易把一个“充得快但伤电池”的方案错讲成更好。
+所以这不是一条“越跑越久直到碰巧找到好点”的路线，而是一条：
 
-而我们现在的结果是：
+- 每阶段先在局部 trust region 内收敛；
+- 再把收敛后的 winner 提升到下一阶段；
+- 最后用三次局部收敛拼出一条层级搜索主线。
 
-- `Q30` 更高
-- `plating_loss` 没有变差
-- `sei_growth` 更低
-- `total_lli` 也更低
+## 5. 额外证据
 
-所以这不是一种用寿命换充电量的表面提升。
+### 5.1 外部组合应力验证
 
-## 5. 为什么说这个结果不只是 nominal 好看
+文件：
 
-主搜索不是只在单个 nominal 条件下选 winner。
+- `experiments/analysis/external_validation/results/external_validation_summary.json`
 
-每个候选都要在一个 5-scenario robust bundle 上评估：
+这个实验把：
 
-- `nominal`
-- `warm_cell`
-- `hot_cell`
-- `plating_stress`
-- `sei_stress`
+- `stage_three`
+- `stage_two`
+- `baseline`
 
-最终排序时会综合考虑：
+放到搜索 bundle 之外的 `combined_stress_v1` 条件下重比一次。
 
-- `success_rate`
-- `guard_pass_rate`
-- `worst_score`
-- `robust_utility`
+当前结论是：
 
-也就是说，主线结果不是“只在一个简单环境里最优”，而是在一个固定的鲁棒评估包下选出来的。
+- `stage_three` 在 held-out 组合应力下仍然 rank-1；
+- `stage_two` 仍然可行，但落后于 `stage_three`；
+- `baseline` 在 held-out guard 上失败。
 
-## 6. held-out 验证告诉了我们什么
+### 5.2 含义
 
-为了避免只在 search bundle 里好看，我们又做了 held-out 组合应力验证。
+这一步很重要，因为它说明：
 
-held-out 上的结果是：
+- `stage_three` 不是只在它自己搜索时见过的场景上赢；
+- 即使换到外部组合应力条件下，它仍然保持第一；
+- 所以当前 winner 不是一个只对原搜索 bundle 偶然成立的点。
 
-- `UA5_PSMS`: `guard_pass_rate = 1.0`, `robust_utility = 0.0706`
-- `UA4_EVTBO`: `guard_pass_rate = 1.0`, `robust_utility = 0.0`
-- `BO_3step_aggressive`: `guard_pass_rate = 0.0`, `robust_utility = -0.6077`
+## 6. 当前最重要的证据文件
 
-这意味着：
+- 主搜索摘要：`experiments/runs/stage_three/results/stage_three_main_summary.json`
+- 外部验证摘要：`experiments/analysis/external_validation/results/external_validation_summary.json`
+- 成本比较：`experiments/analysis/search_cost/search_cost_comparison.md`
+- baseline 结果：`baselines/vendor/ax_pybamm_fastcharge/results/standard_baselines.json`
+- stage one 摘要：`experiments/runs/stage_one/results/stage_one_summary.json`
+- stage two 摘要：`experiments/runs/stage_two/results/stage_two_summary.json`
 
-- `PSMS-v2` 不只是 search 时那组 scenario 里第一
-- 到了 held-out 组合应力下，它仍然是 rank-1
-- 而 baseline 在 held-out 上直接失去可行性
+## 7. 当前稳妥结论
 
-所以当前结果不是一种明显的 search-bundle 过拟合。
+现在可以稳妥对外说的是：
 
-## 7. 我们的方法到底好在哪
+- 这是一个固定 GitHub / PyBaMM 合同下的离线快充协议搜索项目。
+- 当前 `stage_three` 是整条主线里最强的已验证协议。
+- 它比 `baseline` 和 `stage_two` 都更好。
+- 这个结果不只是 nominal 更高，在外部组合应力验证中也仍然保持第一。
+- 这条结果不是靠更大的公开搜索成本堆出来的；完整三阶段主线只用了 `42` 次 eval。
+- 三个阶段都是“当前阶段收敛后，再进入下一阶段”的层级搜索流程。
 
-如果用一句更工程化的话来讲，`PSMS-v2` 的优势主要来自两件事：
+不建议现在说得过满的话：
 
-- 它能表示更丰富的 staged charging protocol
-- 它在搜索时更认真地把 feasibility 放进决策里
-
-### 7.1 协议表达更强
-
-原始 3-step baseline 能表达的曲线比较简单。
-
-而 `PSMS-v2` 允许：
-
-- entry boost
-- 电压触发切换
-- hold 段
-- tail 收尾
-
-因此它能表达更细、更像真实快充工程设计会考虑的协议形状。
-
-### 7.2 搜索更重视可行性
-
-`PSMS-v2` 不是只盯着 nominal 最大化，而是在搜索闭环中考虑：
-
-- 哪些候选更可能物理可行
-- 哪些候选更可能通过 guard
-- 哪些候选在鲁棒 ranking 下才真的值得保留
-
-所以它找到的不是一个“看起来激进但不稳定”的点，而是一个更稳的 winner。
-
-## 8. 成本应该怎么理解
-
-这部分最容易被讲乱。
-
-### 8.1 主线框架成本
-
-如果比较的是“最终采用的主线框架本身”，那么 candidate-level eval 成本是：
-
-- GitHub direct BO 3-step: `109`
-- GitHub direct BO 5-step: `124`
-- 我们的 promoted pipeline: `44`
-
-这里的 `44` 不是只算“有效评估”。
-
-只要一个候选真的进入了仿真评估，即使它最后：
-
-- 不可行
-- 失败
-- guard 没过
-
-它也已经算进成本了。
-
-所以在这个主线成本口径下，可以安全说：
-
-- 我们比 GitHub direct BO 更便宜
-- 同时最终结果还更好
-
-### 8.2 不能偷换成总研发成本
-
-这个 `44` 不代表整个项目历史上从头到尾一共只做了 44 次尝试。
-
-如果把所有：
-
-- smoke
-- ablation
-- 历史支线
-- warmstart
-- validate
-
-全部加起来，我们的总研发投入并不比 GitHub 更低。
-
-所以一定要区分：
-
-- 主线 promoted pipeline 成本
-- 全历史研发总成本
-
-前者可以说更便宜，后者不能这么说。
-
-## 9. 当前结果可以讲到什么程度
-
-当前可以安全讲：
-
-- `PSMS-v2` 是当前固定 GitHub/PyBaMM 合同下的已验证最优线
-- 它在 nominal 和 held-out 两层上都优于 baseline
-- 它比 EVTBO 也更好
-- 在主线 candidate-level eval 成本口径下，它比 GitHub direct BO 更便宜
-- 这个主线成本已经包含失败候选
-
-当前不能讲：
-
-- 我们整个研发总成本更低
-- 我们已经公平证明从头全局搜索一定优于所有 baseline optimizer
-- 我们已经证明某一个单独模块就是全部原因
-- 我们的结果已经适用于所有电池体系和所有快充任务
-
-## 10. 为什么现在要强调 package-level improvement
-
-因为现在的 ablation 说明的是：
-
-- gain 不是 sequence prior 单独造成的
-- 去掉 entry activation 又会退回 EVTBO
-
-这意味着最稳的说法是：
-
-- `PSMS-v2` 作为一个整体 package 更强
-
-而不是：
-
-- 某一个局部模块单独决定了一切
-
-这会让故事更保守，但也更经得起问。
-
-## 11. 如果你只想核最重要的证据，看哪些文件
-
-最重要的文件是这几个。
-
-主搜索结果：
-
-- `experiments/main/run-psms-v2-main-v1/RESULT.json`
-- `experiments/main/ua_psms_v1/results/ua_psms_v2_search_main_summary.json`
-
-held-out 结果：
-
-- `experiments/analysis/heldout_combo_validation/results/psms_v2_heldout_combo_v1_summary.json`
-
-baseline 结果：
-
-- `baselines/local/ax-pybamm-fastcharge/results/standard_baselines.json`
-
-成本表：
-
-- `experiments/analysis/framework_cost/framework_cost_table.md`
-
-## 12. 如果你是第一次把项目发给别人，最推荐怎么介绍
-
-最简单的介绍方式可以直接这样说：
-
-“这是一个在固定 PyBaMM fast-charge benchmark 下做 staged protocol search 的项目。我们最终方法 `PSMS-v2` 在保持同一评价合同的前提下，把 nominal `Q30` 从 baseline 的 `0.08990 Ah` 提升到了 `0.09636 Ah`，held-out 上仍然 rank-1，而且在主线 candidate-level eval 成本口径下只用了 44 次真实评估，低于 GitHub direct BO 的 109/124 次。”
-
-这句话现在是比较稳的。
+- “已经证明全局最优”
+- “对所有电池模型都成立”
+- “我们的整个历史研发成本低于所有 baseline”
+- “某一个单独模块已经被完全证明是唯一关键因素”
